@@ -1,0 +1,105 @@
+/snap/clion/124/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/jianc/projects/cs393r_starter
+-- Compiling Reference Car Localization + Navigation
+-- Using compiler: /usr/bin/c++
+-- Build Type: Debug
+-- Arch: x86_64
+-- Additional Flags for Debug mode
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/rosbuild.cmake:7 (cmake_policy):
+  The OLD behavior for policy CMP0011 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:19 (INCLUDE)
+
+
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/rosbuild.cmake:16 (cmake_policy):
+  The OLD behavior for policy CMP0002 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:19 (INCLUDE)
+
+
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/rosbuild.cmake:18 (cmake_policy):
+  The OLD behavior for policy CMP0003 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:19 (INCLUDE)
+
+
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/rosbuild.cmake:20 (cmake_policy):
+  The OLD behavior for policy CMP0005 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:19 (INCLUDE)
+
+
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/rosbuild.cmake:23 (cmake_policy):
+  The OLD behavior for policy CMP0011 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:19 (INCLUDE)
+
+
+[rosbuild] Building package cs393r_starter
+[rosbuild] using multiarch 'x86_64-linux-gnu' for finding Boost
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/public.cmake:366 (cmake_policy):
+  The OLD behavior for policy CMP0037 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:20 (ROSBUILD_INIT)
+
+
+-- Using CATKIN_DEVEL_PREFIX: /home/jianc/projects/cs393r_starter/cmake-build-debug/devel
+-- Using CMAKE_PREFIX_PATH: /opt/ros/melodic
+-- This workspace overlays: /opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Skip enable_testing() for dry packages
+-- Using CATKIN_TEST_RESULTS_DIR: /home/jianc/projects/cs393r_starter/cmake-build-debug/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python (found version "2.7.17") 
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.28
+-- BUILD_SHARED_LIBS is on
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+[rosbuild] Including /opt/ros/melodic/share/roslisp/rosbuild/roslisp.cmake
+[rosbuild] Including /opt/ros/melodic/share/roscpp/rosbuild/roscpp.cmake
+[rosbuild] Including /opt/ros/melodic/share/rospy/rosbuild/rospy.cmake
+-- ROS-Overrride Build Type: RelWithDebInfo
+-- CXX Flags: -std=c++11 -Wall -Werror -g
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/jianc/projects/cs393r_starter/cmake-build-debug

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jianc/projects/cs393r_starter/cmake-build-debug/devel/setup.sh

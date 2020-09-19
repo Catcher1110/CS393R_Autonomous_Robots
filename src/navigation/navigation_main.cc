@@ -44,9 +44,11 @@
 #include "shared/math/math_util.h"
 #include "shared/util/timer.h"
 #include "shared/ros/ros_helpers.h"
+#include "amrl_msgs/Localization2DMsg.h"
 
 #include "navigation.h"
 
+using amrl_msgs::Localization2DMsg;
 using math_util::DegToRad;
 using math_util::RadToDeg;
 using navigation::Navigation;
@@ -83,6 +85,15 @@ void LaserCallback(const sensor_msgs::LaserScan& msg) {
 
   static vector<Vector2f> point_cloud_;
   // TODO Convert the LaserScan to a point cloud
+  Vector2f single_point_cloud = {0.0f, 0.0f};
+  unsigned int i = 0;
+  while(i < msg.ranges.size()){
+      if(msg.ranges[i] > msg.range_min && msg.ranges[i] < msg.range_max){
+          single_point_cloud = {msg.ranges[i]*cos(msg.angle_min + msg.angle_increment*i)+0.2f, msg.ranges[i]*sin(msg.angle_min + msg.angle_increment*i)};
+          point_cloud_.push_back(single_point_cloud);
+      }
+      i++;
+  }
   navigation_->ObservePointCloud(point_cloud_, msg.header.stamp.toSec());
   last_laser_msg_ = msg;
 }
@@ -115,11 +126,11 @@ void SignalHandler(int) {
   run_ = false;
 }
 
-void LocalizationCallback(const geometry_msgs::Pose2D& msg) {
+void LocalizationCallback(const amrl_msgs::Localization2DMsg msg) {
   if (FLAGS_v > 0) {
     printf("Localization t=%f\n", GetWallTime());
   }
-  navigation_->UpdateLocation(Vector2f(msg.x, msg.y), msg.theta);
+  navigation_->UpdateLocation(Vector2f(msg.pose.x, msg.pose.y), msg.pose.theta);
 }
 
 int main(int argc, char** argv) {
