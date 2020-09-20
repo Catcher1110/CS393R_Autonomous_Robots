@@ -74,6 +74,7 @@ bool run_ = true;
 sensor_msgs::LaserScan last_laser_msg_;
 Navigation* navigation_ = nullptr;
 
+
 void LaserCallback(const sensor_msgs::LaserScan& msg) {
   if (FLAGS_v > 0) {
     printf("Laser t=%f, dt=%f\n",
@@ -84,6 +85,7 @@ void LaserCallback(const sensor_msgs::LaserScan& msg) {
   const Vector2f kLaserLoc(0.2, 0);
 
   static vector<Vector2f> point_cloud_;
+  point_cloud_.clear();
   // TODO Convert the LaserScan to a point cloud
   Vector2f single_point_cloud = {0.0f, 0.0f};
   unsigned int i = 0;
