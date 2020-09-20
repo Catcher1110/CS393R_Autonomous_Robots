@@ -90,18 +90,17 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     const double car_l = 0.535f; // Vehicle's length
     const double car_m = 0.01f; // Vehicle's Safety Margin
     const double x_lim = 100.0f; // Max sensing length
-    const double pi_value = 3.1415926f;
+    const double pi_value = 3.1415926f; // PI
     const double curvature_max = 1.0f; // Max Curvature
     const double delta_curvature = 0.02f; // Curvature Increment
-    const double free_arc_angle_max = 2.0f * pi_value;
-    const double weight_free = 1.0f;
-    const double weight_clearance = 1.0f;
+    const double clearance_max = 100.f; // Max clearance
+    const double free_arc_angle_max = 2.0f * pi_value; // 2*PI
+    const double weight_free = 1.0f; // Weight factor for free arc length
+    const double weight_clear = 10.0f; // weight factor for clearance
 
     // Initialize
-    vector<double> free_arc_length;
-    vector<double> inner_clearance; // Clearance for inner side
-    vector<double> outer_clearance; // Clearance for outer side
-    vector<double> clearance; // Clearance of min(inner, outer)
+    vector<double> free_arc_length; // Free arc length
+    vector<double> min_clearance; // Mimimum clearance
     vector<double> distance2goal; // Distance to goal
     double curvature = 0.0f;
     double x = 0.0f;
@@ -118,12 +117,11 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     // Compute free arc length
     curvature = -curvature_max; // Curvature from -1 to 1
 
-    while(curvature <= curvature_max){
+    while(curvature <= curvature_max)
+    {
         double min_arc_angle = free_arc_angle_max;
         double min_arc_length = 0.0f;
-
-        double min_inner_clearance = 100;
-        double min_outer_clearance = 100;
+	double clearance_min = clearance_max;
 
         if (abs(curvature) > 0.001f)
         {
@@ -144,12 +142,13 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
 
                     if (d < d_min) // Calculate inner clearance
                     {
-                        min_inner_clearance = std::min(min_inner_clearance, d_min - d);
-                    }else if (d > d_max) // Calculate outer clearance
+                        clearance_min = std::min(clearance_min, d_min - d);
+                    }
+		    else if (d > d_max) // Calculate outer clearance
                     {
-                        min_outer_clearance = std::min(min_outer_clearance, d - d_max);
-                    }else // The point is on the way
-//                    if ((d > d_min) && (d < d_max))
+                        clearance_min = std::min(clearance_min, d - d_max);
+                    }
+		    else // The point is on the way
                     {
                         if (x > 0.0f)
                         {
@@ -194,27 +193,29 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
                 if (x > 0.0f && abs(y) < (car_w * 0.5f + car_m))
                 {
                     min_arc_length = std::min(x, min_arc_length);
-                }else if (x > 0.0f && y < - car_w * 0.5f - car_m){
-                    min_inner_clearance = std::min(min_inner_clearance, - car_w * 0.5f - car_m - y);
-                }else if (x > 0.0f && y > car_w * 0.5f + car_m){
-                    min_outer_clearance = std::min(min_outer_clearance, y - car_w * 0.5f - car_m);
+                }
+		else if (x > 0.0f && y < - car_w * 0.5f - car_m)
+		{
+                    clearance_min = std::min(clearance_min, - car_w * 0.5f - car_m - y);
+                }
+		else if (x > 0.0f && y > car_w * 0.5f + car_m)
+		{
+                    clearance_min = std::min(clearance_min, y - car_w * 0.5f - car_m);
                 }
                 j++;
             }
-
         }
 
         free_arc_length.push_back(min_arc_length);
-        inner_clearance.push_back(min_inner_clearance);
-        outer_clearance.push_back(min_outer_clearance);
-        clearance.push_back(std::min(min_inner_clearance, min_outer_clearance));
+	min_clearance.push_back(clearance_min);
+
         curvature = curvature + delta_curvature;
     }
 
     // Find best arc
     while (k < free_arc_length.size())
     {
-        score = weight_free * free_arc_length[k] + weight_clearance * clearance[k];
+        score = weight_free * free_arc_length[k] + weight_clear * min_clearance[k];
 
         if (score > max_score)
         {
@@ -228,7 +229,7 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     if (free_arc_length[max_index] > 0.06f)
     {
 
-        drive_msg_.velocity = 1.0f;
+        drive_msg_.velocity = 0.2f;
         drive_msg_.curvature =  - curvature_max + delta_curvature * max_index;
     }
     else
