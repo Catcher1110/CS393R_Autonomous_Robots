@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="ROS">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$" />
     </CLASSES>
     <SOURCES />
   </library>

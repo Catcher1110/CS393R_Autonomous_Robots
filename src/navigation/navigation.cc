@@ -95,11 +95,13 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     const double delta_curvature = 0.02f; // Curvature Increment
     const double free_arc_angle_max = 2.0f * pi_value;
     const double weight_free = 1.0f;
+    const double weight_clearance = 1.0f;
 
     // Initialize
     vector<double> free_arc_length;
     vector<double> inner_clearance; // Clearance for inner side
     vector<double> outer_clearance; // Clearance for outer side
+    vector<double> clearance; // Clearance of min(inner, outer)
     vector<double> distance2goal; // Distance to goal
     double curvature = 0.0f;
     double x = 0.0f;
@@ -205,13 +207,14 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
         free_arc_length.push_back(min_arc_length);
         inner_clearance.push_back(min_inner_clearance);
         outer_clearance.push_back(min_outer_clearance);
+        clearance.push_back(std::min(min_inner_clearance, min_outer_clearance));
         curvature = curvature + delta_curvature;
     }
 
     // Find best arc
     while (k < free_arc_length.size())
     {
-        score = weight_free * free_arc_length[k];
+        score = weight_free * free_arc_length[k] + weight_clearance * clearance[k];
 
         if (score > max_score)
         {
@@ -225,7 +228,7 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     if (free_arc_length[max_index] > 0.06f)
     {
 
-        drive_msg_.velocity = 0.2f;
+        drive_msg_.velocity = 1.0f;
         drive_msg_.curvature =  - curvature_max + delta_curvature * max_index;
     }
     else
@@ -239,11 +242,14 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
 
 void Navigation::Run() {
   // Create Helper functions here
+  visualization::ClearVisualizationMsg(local_viz_msg_);
 //  drive_msg_.header = amrl_msgs::AckermannCurvatureDriveMsg_<>;
 //  drive_msg_.velocity = 1;
 //  drive_msg_.curvature = 0;
 //  drive_pub_.publish(drive_msg_);
-  
+    visualization::DrawCross(Vector2f(3, 0), 0.2, 0xFF0000, local_viz_msg_);
+    visualization::DrawArc({10,10}, 10, 30, 90, 0xFF0000, local_viz_msg_);
+    viz_pub_.publish(local_viz_msg_);
   // Milestone 1 will fill out part of this class.
   // Milestone 3 will complete the rest of navigation.
 }

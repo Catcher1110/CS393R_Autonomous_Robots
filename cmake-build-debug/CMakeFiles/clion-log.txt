@@ -1,4 +1,4 @@
-/snap/clion/124/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/jianc/projects/cs393r_starter
+/snap/clion/126/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/jianc/projects/cs393r_starter
 -- Compiling Reference Car Localization + Navigation
 -- Using compiler: /usr/bin/c++
 -- Build Type: Debug
