@@ -100,12 +100,12 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     const double x_lim = 100.0f; // Max sensing length
     const double pi_value = 3.1415926f; // PI
     const double curvature_max = 1.0f; // Max Curvature
-    const double delta_curvature = 0.02f; // Curvature Increment
+    const double delta_curvature = 0.01f; // Curvature Increment
     const double clearance_max = 100.f; // Max clearance
     const double free_arc_angle_max = 2.0f * pi_value; // 2*PI
-    const double weight_free = 10.0f; // Weight factor for free arc length
-    const double weight_clear = 1.0f; // weight factor for clearance
-    const double weight_distance = 5.0f; // weight for distance to goal
+    const double weight_free = 1.0f; // Weight factor for free arc length
+    const double weight_clear = 20.0f; // weight factor for clearance
+    const double weight_distance = -1.0f; // weight for distance to goal
 
     // Initialize
     vector<double> free_arc_length; // Free arc length
@@ -229,14 +229,15 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
             }
             visualization::DrawLine({0,0}, {min_arc_length, 0}, 0xFF00FF, local_viz_msg_);
         }
-
+        if (min_arc_length > 100){
+            min_arc_length = 100;
+        }
         free_arc_length.push_back(min_arc_length);
 	    min_clearance.push_back(clearance_min);
 
         curvature = curvature + delta_curvature;
     }
     visualization::DrawCross(Vector2f(3, 0), 0.2, 0x000000, local_viz_msg_);
-    viz_pub_.publish(local_viz_msg_);
     // Find best arc
     while (k < free_arc_length.size())
     {
@@ -249,28 +250,39 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
         }
         k++;
     }
+    double best_curvature = - curvature_max + delta_curvature * max_index;
+    if (abs(best_curvature) > 0.001){
+        double radius = abs(1/best_curvature);
+        visualization::DrawArc({0, 1/best_curvature}, radius, 0, 2 * pi_value, 0x0000, local_viz_msg_);
+    }else{
+        visualization::DrawLine({0,0}, {3,0}, 0x0000, local_viz_msg_);
+    }
+
+
+    viz_pub_.publish(local_viz_msg_);
 
     // Execute motion on best arc
     if (free_arc_length[max_index] > 0.06f)
     {
 
-        drive_msg_.velocity = 0.2f;
+        drive_msg_.velocity = 1.0f;
 //        drive_msg_.curvature = 0.1f;
         drive_msg_.curvature =  - curvature_max + delta_curvature * max_index;
     }
     else
     {
+        printf("Free arc length is too short!\n");
+//        printf("");
         drive_msg_.velocity = 0.0f;
         drive_msg_.curvature = 0.0f;
     }
-
     drive_pub_.publish(drive_msg_);
 }
 
 void Navigation::Run() {
     static vector<float> velocity_log;
     static vector<float> curvature_log;
-    
+
   // Create Helper functions here
 //  visualization::ClearVisualizationMsg(local_viz_msg_);
 
