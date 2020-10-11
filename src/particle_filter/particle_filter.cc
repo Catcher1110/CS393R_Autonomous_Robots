@@ -55,7 +55,9 @@ namespace particle_filter {
     ParticleFilter::ParticleFilter() :
             prev_odom_loc_(0, 0),
             prev_odom_angle_(0),
-            odom_initialized_(false) {}
+            odom_initialized_(false),
+            update_vs_resample_(1),
+            update_times_(1) {}
 
     void ParticleFilter::GetParticles(vector<Particle>* particles) const {
         *particles = particles_;
@@ -81,27 +83,26 @@ namespace particle_filter {
         // Fill in the entries of scan using array writes, e.g. scan[i] = ...
         for (size_t i = 0; i < scan.size(); ++i) {
             double min_d = range_max;
-//            scan[i] = Vector2f(0, 0);
-
-            double delta_x = range_max * cos(range_min + (angle_increment * i) + angle);
-            double delta_y = range_max * sin(range_min + (angle_increment * i) + angle);
+            double angle_i = range_min + (angle_increment * i) + angle;
+            double delta_x = range_max * cos(angle_i);
+            double delta_y = range_max * sin(angle_i);
             Vector2f laser_point = {loc.x() + delta_x, loc.y() + delta_y};
 
             // You can create a new line segment instance as follows, for :
             line2f laser_line(loc.x(), loc.y(), laser_point.x(), laser_point.y()); // Line segment from (1,2) to (3.4).
             // Access the end points using `.p0` and `.p1` members:
-            printf("P0: %f, %f P1: %f,%f\n",
-                   laser_line.p0.x(),
-                   laser_line.p0.y(),
-                   laser_line.p1.x(),
-                   laser_line.p1.y());
+//            printf("P0: %f, %f P1: %f,%f\n",
+//                   laser_line.p0.x(),
+//                   laser_line.p0.y(),
+//                   laser_line.p1.x(),
+//                   laser_line.p1.y());
             // The line segments in the map are stored in the `map_.lines` variable. You
             // can iterate through them as:
             for (size_t j = 0; j < map_.lines.size(); ++j) {
                 const line2f map_line = map_.lines[j];
                 // The line2f class has helper functions that will be useful.
                 // Check for intersections:
-                bool intersects = map_line.Intersects(laser_line);
+                bool intersects; // = map_line.Intersects(laser_line);
                 // You can also simultaneously check for intersection, and return the point
                 // of intersection:
                 Vector2f intersection_point; // Return variable
@@ -140,12 +141,22 @@ namespace particle_filter {
         // observations for each particle, and assign weights to the particles based
         // on the observation likelihood computed by relating the observation to the
         // predicted point cloud.
+        float sigma_square = 0.1f;
+        float error;
+        float gamma = 1.0f;
         vector<Vector2f> scan_ptr;
         GetPredictedPointCloud(p_ptr->loc, p_ptr->angle, ranges.size(), range_min, range_max, angle_min, angle_max, &scan_ptr);
-
+        // Calculate weight: log(w(k)) = log(p(z|x)) + log(w(k-1))
+        // log(w(k-1))
+        p_ptr->weight = log(p_ptr->weight);
+        // log(p(z|x))
         for (size_t i = 0; i < scan_ptr.size(); ++i) {
             double range_est = (scan_ptr[i] - p_ptr->loc).norm();
-
+            if ((range_est > range_min) && (range_est < range_max) && (ranges[i] > range_min) && (ranges[i] < range_max)) {
+                error = (range_est - ranges[i]) * (range_est - ranges[i]);
+                // Take the log of exp(-1/2 * error^2 / sigma^2)^gamma
+                p_ptr->weight = p_ptr->weight + pow(- 0.5 * error / sigma_square, gamma);
+            }
         }
     }
 
@@ -159,12 +170,25 @@ namespace particle_filter {
         //    new_particles.push_back(...)
         // After resampling:
         // particles_ = new_particles;
-
-        // You will need to use the uniform random number generator provided. For
-        // example, to generate a random number between 0 and 1:
-        float x = rng_.UniformRandom(0, 1);
-        printf("Random number drawn from uniform distribution between 0 and 1: %f\n",
-               x);
+        vector<Particle> new_particles;
+        float resample_step = 1.0f / FLAGS_num_particles;
+        float r = rng_.UniformRandom(0, resample_step);
+        float U;
+        float c = particles_[0].weight;
+        unsigned int index = 0;
+        // Generate new particles
+        for (size_t i = 0; i < FLAGS_num_particles; ++i) {
+            U = r + i * resample_step;
+            while (U > c) {
+                index++;
+                c += particles_[index].weight;
+            }
+            new_particles.push_back(particles_[index]);
+        }
+        for (size_t i = 0; i < new_particles.size(); ++i) {
+            new_particles[i].weight = resample_step;
+        }
+        particles_ = new_particles;
     }
 
     void ParticleFilter::ObserveLaser(const vector<float>& ranges,
@@ -179,10 +203,32 @@ namespace particle_filter {
         for (size_t i = 0; i < FLAGS_num_particles; ++i) {
             Update(ranges, range_min, range_max, angle_min, angle_max, &(particles_[i]));
         }
+        double total_weight = 0.0f;
+        // Get the max log of weight
+        double max_log_weight = particles_[0].weight;
+        for (size_t i = 0; i < particles_.size(); ++i) {
+            if (max_log_weight < particles_[i].weight){
+                max_log_weight = particles_[i].weight;
+            }
+        }
+        // Minus the max log of weight and get the real weight, calculate the total weight
+        for (size_t i = 0; i < particles_.size(); ++i) {
+            particles_[i].weight -= max_log_weight;
+            particles_[i].weight = exp(particles_[i].weight);
+            total_weight += particles_[i].weight;
+        }
         // Normalize weight
-
+        for (size_t i = 0; i < particles_.size(); ++i) {
+            particles_[i].weight = particles_[i].weight / total_weight;
+        }
+        update_times_++;
         // Resample
-        Resample();
+        if (update_times_ == update_vs_resample_) {
+            update_times_ = 0;
+            Resample();
+        }else{
+            printf("Update %d times without resample", update_times_);
+        }
     }
 
     void ParticleFilter::ObserveOdometry(const Vector2f& odom_loc,
@@ -235,7 +281,7 @@ namespace particle_filter {
             particles_[i].loc.x() = loc.x() + x_noise;
             particles_[i].loc.y() = loc.y() + y_noise;
             particles_[i].angle = angle + angle_noise;
-            particles_[i].weight = 1.0f;
+            particles_[i].weight = 1.0f / FLAGS_num_particles;
         }
         odom_initialized_ = false;
     }
@@ -250,7 +296,7 @@ namespace particle_filter {
         double loc_x = 0.0f;
         double loc_y = 0.0f;
         double ang = 0.0f;
-        double weight = 0.0f;
+        double weight;
         for (size_t i = 0; i < FLAGS_num_particles; ++i) {
             weight = particles_[i].weight;
             loc_x += particles_[i].loc.x() * weight;
