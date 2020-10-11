@@ -73,15 +73,23 @@ Navigation::Navigation(const string& map_file, ros::NodeHandle* n) :
 }
 
 void Navigation::SetNavGoal(const Vector2f& loc, float angle) {
+    nav_goal_loc_ = loc;
+    nav_goal_angle_ = angle;
 }
 
 void Navigation::UpdateLocation(const Eigen::Vector2f& loc, float angle) {
+    robot_loc_ = loc;
+    robot_angle_ = angle;
 }
 
 void Navigation::UpdateOdometry(const Vector2f& loc,
                                 float angle,
                                 const Vector2f& vel,
                                 float ang_vel) {
+    odom_loc_ = loc;
+    odom_angle_ = angle;
+    robot_vel_ = vel;
+    robot_omega_ = ang_vel;
 }
 
 void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,

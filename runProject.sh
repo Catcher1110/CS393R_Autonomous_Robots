@@ -1,7 +1,7 @@
 #! /bin/bash
 
 gnome-terminal -- "roscore" 
-sleep .5
+sleep 1
 gnome-terminal -- ./runSimulator.sh
 gnome-terminal -- ./runWebsocket.sh
 

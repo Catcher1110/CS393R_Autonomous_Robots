@@ -60,7 +60,7 @@ class Navigation {
   void ObservePointCloud(const std::vector<Eigen::Vector2f>& cloud,
                          double time);
 
-  // Main function called continously from main
+  // Main function called continuously from main
   void Run();
   // Used to set the next target pose.
   void SetNavGoal(const Eigen::Vector2f& loc, float angle);
