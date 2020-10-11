@@ -270,18 +270,21 @@ namespace particle_filter {
         // The "set_pose" button on the GUI was clicked, or an initialization message
         // was received from the log. Initialize the particles accordingly, e.g. with
         // some distribution around the provided location and angle.
-        map_.Load(map_file);
+        map_.Load("maps/" + map_file + ".txt");
         double x_noise;
         double y_noise;
         double angle_noise;
+        Particle new_particle;
+        particles_.clear();
         for (size_t i = 0; i < FLAGS_num_particles; ++i) {
             x_noise = rng_.Gaussian(0.0f, 0.1f);
             y_noise = rng_.Gaussian(0.0f, 0.1f);
             angle_noise = rng_.Gaussian(0.0f, 0.01f);
-            particles_[i].loc.x() = loc.x() + x_noise;
-            particles_[i].loc.y() = loc.y() + y_noise;
-            particles_[i].angle = angle + angle_noise;
-            particles_[i].weight = 1.0f / FLAGS_num_particles;
+            new_particle.loc.x() = loc.x() + x_noise;
+            new_particle.loc.y() = loc.y() + y_noise;
+            new_particle.angle = angle + angle_noise;
+            new_particle.weight = 1.0f / FLAGS_num_particles;
+            particles_.push_back(new_particle);
         }
         odom_initialized_ = false;
     }
@@ -296,12 +299,10 @@ namespace particle_filter {
         double loc_x = 0.0f;
         double loc_y = 0.0f;
         double ang = 0.0f;
-        double weight;
         for (size_t i = 0; i < FLAGS_num_particles; ++i) {
-            weight = particles_[i].weight;
-            loc_x += particles_[i].loc.x() * weight;
-            loc_y += particles_[i].loc.y() * weight;
-            ang += particles_[i].angle * weight;
+            loc_x += particles_[i].loc.x() * particles_[i].weight;
+            loc_y += particles_[i].loc.y() * particles_[i].weight;
+            ang += particles_[i].angle * particles_[i].weight;
         }
         loc = Vector2f(loc_x, loc_y);
         angle = ang;

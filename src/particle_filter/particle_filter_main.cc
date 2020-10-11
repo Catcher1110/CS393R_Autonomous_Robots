@@ -66,7 +66,7 @@ using visualization::DrawPoint;
 using visualization::DrawLine;
 using visualization::DrawParticle;
 
-// Create command line arguements
+// Create command line arguments
 DEFINE_string(laser_topic, "/scan", "Name of ROS topic for LIDAR data");
 DEFINE_string(odom_topic, "/odom", "Name of ROS topic for odometry data");
 DEFINE_string(init_topic,
