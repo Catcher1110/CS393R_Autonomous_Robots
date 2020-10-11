@@ -190,23 +190,32 @@ namespace particle_filter {
         // A new odometry value is available (in the odom frame)
         // Implement the motion model predict step here, to propagate the particles
         // forward based on odometry.
-        Vector2f translation_noise;
-        double angle_noise;
-        // Theta_1^odom is the angle in the odom frame, which is prev_odom_angle_
-        Eigen::Rotation2Df rotate_odom_prev(-prev_odom_angle_);
-        Vector2f delta_T = rotate_odom_prev * (odom_loc - prev_odom_loc_);
-        for (size_t i= 0; i < FLAGS_num_particles; i++) {
-            // Generate noise
-            translation_noise.x() = rng_.Gaussian(0.0f, 0.1f);
-            translation_noise.y() = rng_.Gaussian(0.0f, 0.1f);
-            angle_noise = rng_.Gaussian(0.0f, 0.01f);
-            // Theta_1^map is the angle in the map frame, which is particles_[i].angle
-            Eigen::Rotation2Df rotate_map_prev(particles_[i].angle);
-            particles_[i].loc += rotate_map_prev * delta_T + translation_noise;
-            particles_[i].angle += odom_angle - prev_odom_angle_ + angle_noise;
+
+        // If the previous odometry data is used
+        if (odom_initialized_){
+            Vector2f translation_noise;
+            double angle_noise;
+            // Theta_1^odom is the angle in the odom frame, which is prev_odom_angle_
+            Eigen::Rotation2Df rotate_odom_prev(-prev_odom_angle_);
+            Vector2f delta_T = rotate_odom_prev * (odom_loc - prev_odom_loc_);
+            for (size_t i= 0; i < FLAGS_num_particles; i++) {
+                // Generate noise
+                translation_noise.x() = rng_.Gaussian(0.0f, 0.1f);
+                translation_noise.y() = rng_.Gaussian(0.0f, 0.1f);
+                angle_noise = rng_.Gaussian(0.0f, 0.01f);
+                // Theta_1^map is the angle in the map frame, which is particles_[i].angle
+                Eigen::Rotation2Df rotate_map_prev(particles_[i].angle);
+                particles_[i].loc += rotate_map_prev * delta_T + translation_noise;
+                particles_[i].angle += odom_angle - prev_odom_angle_ + angle_noise;
+            }
+            prev_odom_loc_ = odom_loc;
+            prev_odom_angle_ = odom_angle;
+        }else {
+            // If the previous odometry data is not used
+            prev_odom_loc_ = odom_loc;
+            prev_odom_angle_ = odom_angle;
+            odom_initialized_ = true;
         }
-        prev_odom_loc_ = odom_loc;
-        prev_odom_angle_ = odom_angle;
     }
 
     void ParticleFilter::Initialize(const string& map_file,
@@ -228,6 +237,7 @@ namespace particle_filter {
             particles_[i].angle = angle + angle_noise;
             particles_[i].weight = 1.0f;
         }
+        odom_initialized_ = false;
     }
 
     void ParticleFilter::GetLocation(Eigen::Vector2f* loc_ptr,
