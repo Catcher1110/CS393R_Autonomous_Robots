@@ -262,7 +262,7 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     viz_pub_.publish(local_viz_msg_);
 
     // Execute motion on best arc
-    if (free_arc_length[max_index] > 0.06f)
+    if (free_arc_length[max_index] > 0.01f)
     {
 
         drive_msg_.velocity = 1.0f;
