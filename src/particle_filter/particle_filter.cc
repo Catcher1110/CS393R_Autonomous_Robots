@@ -56,8 +56,11 @@ namespace particle_filter {
             prev_odom_loc_(0, 0),
             prev_odom_angle_(0),
             odom_initialized_(false),
-            update_vs_resample_(1),
-            update_times_(1) {}
+            update_vs_resample_(5),
+            update_times_(0){
+        printf("Particle Filter Initialize. \n");
+        Initialize("maps/GDC1.txt", Vector2f(14.7f, 14.24f), 0.0f);
+    }
 
     void ParticleFilter::GetParticles(vector<Particle>* particles) const {
         *particles = particles_;
@@ -109,22 +112,22 @@ namespace particle_filter {
                 intersects = map_line.Intersection(laser_line, &intersection_point);
                 if (intersects) {
                     double intersection_distance = (intersection_point - loc).norm();
-                    printf("Intersects for (%d, %d) at %f,%f. The distance is %f. \n",
-                           int(i), int(j),
-                           intersection_point.x(),
-                           intersection_point.y(),
-                           intersection_distance);
+//                    printf("Intersects for (%d, %d) at %f,%f. The distance is %f. \n",
+//                           int(i), int(j),
+//                           intersection_point.x(),
+//                           intersection_point.y(),
+//                           intersection_distance);
                     if (intersection_distance < min_d && intersection_distance > range_min) {
                         // Have intersection between range_min and range_max
                         min_d = intersection_distance; // Update the minimum intersection
                         scan[i] = intersection_point;
                     } else if (intersection_distance < min_d && intersection_distance < range_min) {
                         // Have intersection but is less than range_min
-                        printf("Something is blocking the sensor!");
+                        printf("Something is blocking the sensor! \n");
                     }
                 } else {
                     scan[i] = laser_point;
-                    printf("No intersection for (%d, %d).\n", int(i), int(j));
+//                    printf("No intersection for (%d, %d).\n", int(i), int(j));
                 }
             }
         }
@@ -161,6 +164,7 @@ namespace particle_filter {
     }
 
     void ParticleFilter::Resample() {
+        printf("Resample \n");
         // Resample the particles, proportional to their weights.
         // The current particles are in the `particles_` variable.
         // Create a variable to store the new particles, and when done, replace the
@@ -227,7 +231,7 @@ namespace particle_filter {
             update_times_ = 0;
             Resample();
         }else{
-            printf("Update %d times without resample", update_times_);
+            printf("Update %d times without resample \n", update_times_);
         }
     }
 
@@ -246,8 +250,8 @@ namespace particle_filter {
             Vector2f delta_T = rotate_odom_prev * (odom_loc - prev_odom_loc_);
             for (size_t i= 0; i < FLAGS_num_particles; i++) {
                 // Generate noise
-                translation_noise.x() = rng_.Gaussian(0.0f, 0.1f);
-                translation_noise.y() = rng_.Gaussian(0.0f, 0.1f);
+                translation_noise.x() = rng_.Gaussian(0.0f, 0.05f);
+                translation_noise.y() = rng_.Gaussian(0.0f, 0.05f);
                 angle_noise = rng_.Gaussian(0.0f, 0.01f);
                 // Theta_1^map is the angle in the map frame, which is particles_[i].angle
                 Eigen::Rotation2Df rotate_map_prev(particles_[i].angle);
@@ -270,15 +274,21 @@ namespace particle_filter {
         // The "set_pose" button on the GUI was clicked, or an initialization message
         // was received from the log. Initialize the particles accordingly, e.g. with
         // some distribution around the provided location and angle.
-        map_.Load("maps/" + map_file + ".txt");
+        printf("Initialize Function! \n");
+//        printf("Map is: %s", map_file);
+        if (map_file == "maps/GDC1.txt"){
+            map_.Load(map_file);
+        } else{
+            map_.Load("maps/" + map_file + ".txt");
+        }
         double x_noise;
         double y_noise;
         double angle_noise;
         Particle new_particle;
         particles_.clear();
         for (size_t i = 0; i < FLAGS_num_particles; ++i) {
-            x_noise = rng_.Gaussian(0.0f, 0.1f);
-            y_noise = rng_.Gaussian(0.0f, 0.1f);
+            x_noise = rng_.Gaussian(0.0f, 0.05f);
+            y_noise = rng_.Gaussian(0.0f, 0.05f);
             angle_noise = rng_.Gaussian(0.0f, 0.01f);
             new_particle.loc.x() = loc.x() + x_noise;
             new_particle.loc.y() = loc.y() + y_noise;
