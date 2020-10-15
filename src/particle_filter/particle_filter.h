@@ -87,6 +87,7 @@ class ParticleFilter {
                               float angle_max,
                               std::vector<Eigen::Vector2f>* scan);
 
+
  private:
 
   // List of particles being tracked.
@@ -105,6 +106,13 @@ class ParticleFilter {
   // Resample less often
   const unsigned int update_vs_resample_;
   unsigned int update_times_;
+  // Tuning Parameters
+  float S_min;
+  float S_max;
+  float d_short;
+  float d_long;
+  float gamma;
+  float eta;
 };
 }  // namespace slam
 
