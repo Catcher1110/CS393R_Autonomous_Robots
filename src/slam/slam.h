@@ -24,85 +24,60 @@
 
 #include "eigen3/Eigen/Dense"
 #include "eigen3/Eigen/Geometry"
-#include "shared/math/line2d.h"
-#include "shared/util/random.h"
-#include "vector_map/vector_map.h"
 
 #ifndef SRC_SLAM_H_
 #define SRC_SLAM_H_
 
 namespace slam {
 
-struct Particle {
-  Eigen::Vector2f loc;
-  float angle;
-  double weight;
-};
+    class SLAM {
 
-class SLAM {
- public:
-  // Default Constructor.
-  SLAM();
+    public:
 
-  // Observe a new laser scan.
-  void ObserveLaser(const std::vector<float>& ranges,
-                    float range_min,
-                    float range_max,
-                    float angle_min,
-                    float angle_max);
+        // Default Constructor.
+        SLAM();
 
-  // Observe new odometry-reported location.
-  void ObserveOdometry(const Eigen::Vector2f& odom_loc,
-                       const float odom_angle);
+        // Observe a new laser scan.
+        void ObserveLaser(const std::vector<float>& ranges,
+                          float range_min,
+                          float range_max,
+                          float angle_min,
+                          float angle_max);
 
-  // Initialize the robot location.
-  void Initialize(const std::string& map_file,
-                  const Eigen::Vector2f& loc,
-                  const float angle);
+        // Observe new odometry-reported location.
+        void ObserveOdometry(const Eigen::Vector2f& odom_loc,
+                             const float odom_angle);
 
-  // Return the list of particles.
-  void GetParticles(std::vector<Particle>* particles) const;
+        // Get latest map.
+        std::vector<Eigen::Vector2f> GetMap();
 
-  // Get robot's current location.
-  void GetLocation(Eigen::Vector2f* loc, float* angle) const;
+        // Get latest robot pose.
+        void GetPose(Eigen::Vector2f* loc, float* angle);
 
-  // Update particle weight based on laser.
-  void Update(const std::vector<float>& ranges,
-              float range_min,
-              float range_max,
-              float angle_min,
-              float angle_max,
-              Particle* p);
+    private:
 
-  // Resample particles.
-  void Resample();
+        std::vector<std::vector<double>> generateCostTable2D(const std::vector<Eigen::Vector2f>& point_cloud);
 
-  // For debugging: get predicted point cloud from current location.
-  void GetPredictedPointCloud(const Eigen::Vector2f& loc,
-                              const float angle,
-                              int num_ranges,
-                              float range_min,
-                              float range_max,
-                              float angle_min,
-                              float angle_max,
-                              std::vector<Eigen::Vector2f>* scan);
+        double computeCost(const std::vector<Eigen::Vector2f>& point_cloud);
 
- private:
+        std::vector<Eigen::Vector2f> PointCloudRotation(const std::vector<Eigen::Vector2f>& point_cloud, const Eigen::Vector2f& translation, const double rotation);
 
-  // List of particles being tracked.
-  std::vector<Particle> particles_;
+        // Previous odometry-reported locations.
+        Eigen::Vector2f prev_odom_loc_;
+        float prev_odom_angle_;
+        bool odom_initialized_;
 
-  // Map of the environment.
-  vector_map::VectorMap map_;
+        // Internal Variables
+        std::vector<Eigen::Vector2f> point_cloud_;
+        Eigen::Vector2f car_loc;
+        double car_angle;
+        Eigen::Vector2f odom_car_loc;
+        double odom_car_angle;
+        std::vector<std::vector<double>> costTable2D;
 
-  // Random number generator.
-  util_random::Random rng_;
-
-  // Previous odometry-reported locations.
-  Eigen::Vector2f prev_odom_loc_;
-  float prev_odom_angle_;
-  bool odom_initialized_;
-};
+        // Map
+        std::vector<Eigen::Vector2f> map_global;
+    };
 }  // namespace slam
 
 #endif   // SRC_SLAM_H_
