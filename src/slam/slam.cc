@@ -53,9 +53,9 @@ namespace slam {
             prev_odom_loc_(0, 0),
             prev_odom_angle_(0),
             odom_initialized_(false),
-            car_loc(0, 0),
+            car_loc(0, 0), // updated car's location through estimation
             car_angle(0),
-            odom_car_loc(0, 0),
+            odom_car_loc(0, 0), // updated car's location through odometry
             odom_car_angle(0) {}
 
     void SLAM::GetPose(Eigen::Vector2f* loc, float* angle) {
@@ -64,12 +64,12 @@ namespace slam {
         // Definition and initialization
         const Vector2f loc_odom = odom_car_loc;
         const double ang_odom = odom_car_angle;
-        const double delta_x = 0.1f;
-        const double max_delta_x = delta_x * 5.0f;
-        const double delta_y = 0.1f;
+        const double delta_x = 0.5f;
+        const double max_delta_x = delta_x * 5.0f; // 0.5f
+        const double delta_y = 0.5f;
         const double max_delta_y = delta_y * 5.0f;
-        const double delta_ang = 3.1415926 / 10.0;
-        const double max_delta_ang = 3.1415926f;
+        const double delta_ang = 3.1415926 / 40.0;
+        const double max_delta_ang = delta_ang * 5.0f;
 
         double loc_x_optimal = loc_odom.x();
         double loc_y_optimal = loc_odom.y();
@@ -77,17 +77,17 @@ namespace slam {
 
         double loc_x = loc_odom.x() - max_delta_x;
         double max_prob = 0.0f;
-        if (point_cloud_.empty()) {
-            printf("GetPose point_cloud_ empty.\n");
-            *loc = Vector2f(loc_x_optimal, loc_y_optimal);
-            *angle = angle_optimal;
-            return;
-        } else{
-            printf("GetPose point_cloud_ %d. \n", int(point_cloud_.size()));
-        }
+//        if (point_cloud_.empty()) {
+//            printf("GetPose point_cloud_ empty.\n");
+//            *loc = Vector2f(loc_x_optimal, loc_y_optimal);
+//            *angle = angle_optimal;
+//            return;
+//        } else{
+//            printf("GetPose point_cloud_ %d. \n", int(point_cloud_.size()));
+//        }
         if (!costTable2D.empty())
         {
-            printf("cost table size: %d. \n", int(costTable2D.size()));
+//            printf("cost table size: %d. \n", int(costTable2D.size()));
             // Sample all possible location & angle near odometry predicted location & angle
             while (loc_x < (loc_odom.x() + max_delta_x)) {
 
@@ -105,19 +105,19 @@ namespace slam {
                         double rotation_back;
                         vector<Vector2f> point_cloud_rotated_back;
 
-                        translation_back.x() = car_loc.x() - loc_x;
-                        translation_back.y() = car_loc.y() - loc_y;
+                        translation_back.x() = - car_loc.x() + loc_x;
+                        translation_back.y() = - car_loc.y() + loc_y;
                         rotation_back = angle_t - car_angle;
 
                         // Transform current point cloud back to ref (last step) frame
-                        printf("PointCloudRotation In");
+//                        printf("PointCloudRotation In");
                         point_cloud_rotated_back = PointCloudRotation(point_cloud_, translation_back, rotation_back);
-                        printf(" Out \n");
+//                        printf(" Out \n");
 
                         // Compute cost (probability)
-                        printf("computeCost In ");
+//                        printf("computeCost In ");
                         prob = computeCost(point_cloud_rotated_back);
-                        printf(" Out \n");
+//                        printf(" Out \n");
 
                         if (prob > max_prob) {
                             max_prob = prob;
@@ -136,6 +136,7 @@ namespace slam {
             }
         }
 //        printf("After While loop \n");
+        printf("Current Angle: %.2f, Pose: %.2f, %.2f. \n", angle_optimal, loc_x_optimal, loc_y_optimal);
         *loc = Vector2f(loc_x_optimal, loc_y_optimal);
         *angle = angle_optimal;
 
@@ -236,12 +237,12 @@ namespace slam {
 
         const double x_max = 5.0f;
         const double y_max = 5.0f;
-        const double delta_x = 0.5f;
-        const double delta_y = 0.5f;
-        const double sigma = 0.1f;
+        const double delta_x = 0.05f;
+        const double delta_y = 0.05f;
+        const double sigma = 0.5f;
 
         double x = - x_max;
-        double y = - y_max;
+        double y;
         double epsilon = 0.1f;
         std::vector<double> cost_table_row;
         while (x <= x_max + epsilon)
@@ -255,7 +256,7 @@ namespace slam {
                 while (i < point_cloud.size())
                 {
                     double distance = (Vector2f(x, y) - point_cloud[i]).norm();
-                    cost = exp(- distance * distance / sigma);
+                    cost += exp(- distance * distance / sigma);
                     i++;
                 }
 
@@ -278,8 +279,8 @@ namespace slam {
 
         const double x_max = 5.0f;
         const double y_max = 5.0f;
-        const double delta_x = 0.5f;
-        const double delta_y = 0.5f;
+        const double delta_x = 0.05f;
+        const double delta_y = 0.05f;
 
         double cost = 0.0f;
 
@@ -299,7 +300,7 @@ namespace slam {
                 double x_left = - x_max;
                 double y_left = - y_max;
 
-                // Find index in 2D table for bilinear interpolation
+                // Find index in 2D table for bi-linear interpolation
                 while (j < costTable2D.size() - one)
                 {
                     if ((point_cloud[i].x() >  x_left) && (point_cloud[i].x() <  x_left + delta_x))
@@ -336,7 +337,7 @@ namespace slam {
                 double x_right = x_left + delta_x;
                 double y_right = y_left + delta_y;
 
-                // Bilinear interpolation
+                // Bi-linear interpolation
                 double Q_11 = costTable2D[j][k];
                 double Q_21 = costTable2D[j + one][k];
                 double Q_12 = costTable2D[j][k + one];

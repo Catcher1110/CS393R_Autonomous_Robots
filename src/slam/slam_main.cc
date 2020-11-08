@@ -106,21 +106,21 @@ void PublishMap() {
 }
 
 void PublishPose() {
-    printf("Publish Pose. \n");
+//    printf("Publish Pose. \n");
     Vector2f robot_loc(0, 0);
     float robot_angle(0);
     slam_.GetPose(&robot_loc, &robot_angle);
-    printf("Publish Pose 1. \n");
+//    printf("Publish Pose 1. \n");
     amrl_msgs::Localization2DMsg localization_msg;
     localization_msg.pose.x = robot_loc.x();
     localization_msg.pose.y = robot_loc.y();
     localization_msg.pose.theta = robot_angle;
-    printf("Publish Pose 2. \n");
+//    printf("Publish Pose 2. \n");
     localization_publisher_.publish(localization_msg);
 }
 
 void LaserCallback(const sensor_msgs::LaserScan& msg) {
-    printf("LaserCallback. \n");
+//    printf("LaserCallback. \n");
     if (FLAGS_v > 0) {
         printf("Laser t=%f\n", msg.header.stamp.toSec());
     }
