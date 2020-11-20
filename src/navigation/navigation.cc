@@ -31,6 +31,8 @@
 #include "shared/util/timer.h"
 #include "shared/ros/ros_helpers.h"
 #include "navigation.h"
+#include "simple_queue.h"
+#include "shared/math/geometry.h"
 #include "visualization/visualization.h"
 
 using Eigen::Vector2f;
@@ -38,6 +40,7 @@ using amrl_msgs::AckermannCurvatureDriveMsg;
 using amrl_msgs::VisualizationMsg;
 using std::string;
 using std::vector;
+using geometry::line2f;
 
 using namespace math_util;
 using namespace ros_helpers;
@@ -70,11 +73,127 @@ Navigation::Navigation(const string& map_file, ros::NodeHandle* n) :
   global_viz_msg_ = visualization::NewVisualizationMessage(
       "map", "navigation_global");
   InitRosHeader("base_link", &drive_msg_.header);
+  map_.Load(map_file);
+  printf("Map Loaded! %d \n", int(map_.lines.size()));
+  GenerateNavGraph();
+  printf("Generate the map. (%d, %d, %d) \n", int(map_x_id.size()), int(map_y_id.size()), int(map_id_value.size()));
+}
+
+void Navigation::GenerateNavGraph() {
+    map_x_id.clear();
+    map_y_id.clear();
+    map_id_value.clear();
+    std::pair<int, int> temp_cell_1;
+    std::pair<int, int> temp_cell_2;
+    for (int i = 0; i < rows_; ++i) {
+        for (int j = 0; j < cols_; ++j) {
+            temp_cell_1 = std::make_pair(i, j);
+            // Grid
+            if (i > 0){
+                temp_cell_2 = std::make_pair(i - 1, j);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    map_x_id.push_back(Cell2Id(temp_cell_1));
+                    map_y_id.push_back(Cell2Id(temp_cell_2));
+                    map_id_value.push_back(1);
+                }
+            }
+            if (j > 0){
+                temp_cell_2 = std::make_pair(i, j - 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    map_x_id.push_back(Cell2Id(temp_cell_1));
+                    map_y_id.push_back(Cell2Id(temp_cell_2));
+                    map_id_value.push_back(1);
+                }
+            }
+            if (i < rows_ - 1){
+                temp_cell_2 = std::make_pair(i + 1, j);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    map_x_id.push_back(Cell2Id(temp_cell_1));
+                    map_y_id.push_back(Cell2Id(temp_cell_2));
+                    map_id_value.push_back(1);
+                }
+            }
+            if (j < cols_ - 1){
+                temp_cell_2 = std::make_pair(i, j + 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    map_x_id.push_back(Cell2Id(temp_cell_1));
+                    map_y_id.push_back(Cell2Id(temp_cell_2));
+                    map_id_value.push_back(1);
+                }
+            }
+            // Uncomment these if want to have more vertices
+//            if (i > 0 && j > 0){
+//                temp_cell_2 = std::make_pair(i - 1, j - 1);
+//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+//                    map_x_id.push_back(Cell2Id(temp_cell_1));
+//                    map_y_id.push_back(Cell2Id(temp_cell_2));
+//                    map_id_value.push_back(sqrt(2));
+//                }
+//            }
+//            if (i < rows_ - 1 && j > 0) {
+//                temp_cell_2 = std::make_pair(i + 1, j - 1);
+//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+//                    map_x_id.push_back(Cell2Id(temp_cell_1));
+//                    map_y_id.push_back(Cell2Id(temp_cell_2));
+//                    map_id_value.push_back(sqrt(2));
+//                }
+//            }
+//            if (i > 0 && j < cols_ - 1) {
+//                temp_cell_2 = std::make_pair(i - 1, j + 1);
+//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+//                    map_x_id.push_back(Cell2Id(temp_cell_1));
+//                    map_y_id.push_back(Cell2Id(temp_cell_2));
+//                    map_id_value.push_back(sqrt(2));
+//                }
+//            }
+//            if (i < rows_ - 1 && j < cols_ - 1){
+//                temp_cell_2 = std::make_pair(i + 1, j + 1);
+//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+//                    map_x_id.push_back(Cell2Id(temp_cell_1));
+//                    map_y_id.push_back(Cell2Id(temp_cell_2));
+//                    map_id_value.push_back(sqrt(2));
+//                }
+//            }
+        }
+    }
+}
+
+bool Navigation::EdgeInterceptWall(std::pair<int, int> cell_1, std::pair<int, int> cell_2) {
+    Vector2f cell_coord_1 = Id2Coord(Cell2Id(cell_1)) + map_offset_;
+    Vector2f cell_coord_2 = Id2Coord(Cell2Id(cell_2)) + map_offset_;
+    line2f cell_line(cell_coord_1.x(), cell_coord_1.y(), cell_coord_2.x(), cell_coord_2.y());
+    line2f map_line;
+    for (unsigned long i = 0; i < map_.lines.size(); ++i) {
+        map_line = map_.lines[i];
+        if (map_line.Intersects(cell_line)){
+            return true;
+        }
+    }
+    return false;
 }
 
 void Navigation::SetNavGoal(const Vector2f& loc, float angle) {
+    // Print the global navigation goal coordinates
+    Vector2f Map_loc = loc - map_offset_;
+    printf("Set Navigation Goal at (%.2f, %.2f). \n", Map_loc.x(), Map_loc.y());
+    printf("Navigation Cell is: (%d, %d).\n", Coord2Cell(loc).first, Coord2Cell(loc).second);
+    printf("Navigation Cell Id is: %d \n", Cell2Id(Coord2Cell(loc)));
+    printf("Navigation Cell loc is: (%.2f, %.2f). \n", Id2Coord(Cell2Id(Coord2Cell(loc))).x(), Id2Coord(Cell2Id(Coord2Cell(loc))).y());
+
     nav_goal_loc_ = loc;
     nav_goal_angle_ = angle;
+    nav_complete_ = false;
+
+    // Clear the previous planned path and re-plan
+    path_index.clear();
+    MakePlan(robot_loc_, nav_goal_loc_, &path_index);
+    // Clear the previous global visualization info
+    visualization::ClearVisualizationMsg(global_viz_msg_);
+    // Draw the navigation goal
+    visualization::DrawCross(loc, 0.2, 0x000000, global_viz_msg_);
+//    for (int i = 0; i < int(map_x_id.size()); ++i) {
+//        visualization::DrawLine(Id2Coord(map_x_id[i]) + map_offset_, Id2Coord(map_y_id[i]) + map_offset_, 0xFF00FF, global_viz_msg_);
+//    }
 }
 
 void Navigation::UpdateLocation(const Eigen::Vector2f& loc, float angle) {
@@ -276,6 +395,9 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
         drive_msg_.velocity = 1.0f;
 //        drive_msg_.curvature = 0.1f;
         drive_msg_.curvature =  - curvature_max + delta_curvature * max_index;
+
+        drive_msg_.velocity = 0.0f;
+        drive_msg_.curvature = 0.0f;
     }
     else
     {
@@ -287,9 +409,90 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
     drive_pub_.publish(drive_msg_);
 }
 
+std::pair<int, int> Navigation::Coord2Cell(Eigen::Vector2f coord){
+    Vector2f actual_coord = coord - map_offset_;
+    int row_index = actual_coord.y() / cell_size_;
+    int col_index = actual_coord.x() / cell_size_;
+
+    return std::make_pair(row_index, col_index);
+}
+
+int Navigation::Cell2Id(std::pair<int, int> cell){
+    int CellId = cols_ * cell.first + cell.second;
+    return CellId;
+}
+
+Vector2f Navigation::Id2Coord(int id){
+    Vector2f coord;
+    coord.y() = int(id / cols_) * cell_size_;
+    coord.x() = id % rows_ * cell_size_;
+    return coord;
+}
+
+void Navigation::MakePlan(Eigen::Vector2f start, Eigen::Vector2f end, std::vector<int>* path_) {
+    std::vector<int> &path = *path_;
+    path.clear();
+
+    std::pair<int, int> start_cell = Coord2Cell(start);
+    std::pair<int, int> end_cell = Coord2Cell(end);
+    printf("Start Cell: (%d, %d), End Cell: (%d, %d). \n", start_cell.first, start_cell.second, end_cell.first, end_cell.second);
+    // Convert the coordinate to the cell id
+    int start_cell_id = Cell2Id(start_cell);
+    int end_cell_id = Cell2Id(end_cell);
+    printf("Start Id: %d, End Id: %d \n", start_cell_id, end_cell_id);
+
+    // Search for the optimal path
+
+    //
+    printf("Make plan successfully! \n");
+    // Draw optimal Path
+    for (int i = 0; i < int(path.size()) - 1; ++i) {
+        visualization::DrawLine(Id2Coord(path[i]) + map_offset_, Id2Coord(path[i+1]) + map_offset_, 0xFF00FF, global_viz_msg_);
+    }
+}
+
+bool Navigation::PathStillValid() {
+    std::reverse(path_index.begin(), path_index.end());
+    for (int i = 0; i < int(path_index.size()); ++i) {
+        // Check whether the robot is close to the planned path
+
+        return true;
+    }
+    return false;
+}
+
+bool Navigation::ReachedGoal() {
+    if ((nav_goal_loc_ - robot_loc_).norm() <= reach_tolerance_){
+        nav_complete_ = true;
+        drive_msg_.velocity = 0.0f;
+        drive_msg_.curvature = 0.0f;
+        drive_pub_.publish(drive_msg_);
+        printf("We are reaching the goal! \n");
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Navigation::Run() {
     static vector<float> velocity_log;
     static vector<float> curvature_log;
+
+    // Check whether the robot reach the target point
+    if (nav_complete_ || ReachedGoal()) {
+        return;
+    }
+    // Check whether the planned path is still valid
+    if (!PathStillValid()) {
+        printf("The planned path is invalid! \n");
+        // Re-plan the path
+        MakePlan(robot_loc_, nav_goal_loc_, &path_index);
+    }
+//    GetCarrot(&carrot_);
+    // Run Obstacle Avoidance
+
+
+    viz_pub_.publish(global_viz_msg_);
 
   // Create Helper functions here
 //  visualization::ClearVisualizationMsg(local_viz_msg_);

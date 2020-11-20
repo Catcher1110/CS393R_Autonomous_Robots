@@ -18,9 +18,6 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/home/jianc/projects/cs393r_starter/include"
-  "/home/jianc/ut_automata/msg_gen/cpp/include"
-  "/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"
-  "/opt/ros/melodic/include"
   "/usr/src/googletest/googletest/include"
   "/usr/src/googletest/googletest"
   )

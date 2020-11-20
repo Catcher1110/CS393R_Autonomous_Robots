@@ -56,7 +56,9 @@ namespace slam {
             car_loc(0, 0), // updated car's location through estimation
             car_angle(0),
             odom_car_loc(0, 0), // updated car's location through odometry
-            odom_car_angle(0) {}
+            odom_car_angle(0),
+            map_car_loc(0, 0),
+            map_car_angle(0) {}
 
     void SLAM::GetPose(Eigen::Vector2f* loc, float* angle) {
         // Return the latest pose estimate of the robot.
@@ -85,6 +87,10 @@ namespace slam {
 //        } else{
 //            printf("GetPose point_cloud_ %d. \n", int(point_cloud_.size()));
 //        }
+        Vector2f translation_back;
+        double rotation_back;
+        vector<Vector2f> point_cloud_rotated_back;
+
         if (!costTable2D.empty())
         {
 //            printf("cost table size: %d. \n", int(costTable2D.size()));
@@ -101,37 +107,26 @@ namespace slam {
 
                         double prob = 0.0f;
 
-                        Vector2f translation_back;
-                        double rotation_back;
-                        vector<Vector2f> point_cloud_rotated_back;
-
-                        translation_back.x() = - car_loc.x() + loc_x;
-                        translation_back.y() = - car_loc.y() + loc_y;
-                        rotation_back = angle_t - car_angle;
+                        translation_back.x() = car_loc.x() - loc_x;
+                        translation_back.y() = car_loc.y() - loc_y;
+                        rotation_back = car_angle - angle_t;
 
                         // Transform current point cloud back to ref (last step) frame
-//                        printf("PointCloudRotation In");
                         point_cloud_rotated_back = PointCloudRotation(point_cloud_, translation_back, rotation_back);
-//                        printf(" Out \n");
 
                         // Compute cost (probability)
-//                        printf("computeCost In ");
                         prob = computeCost(point_cloud_rotated_back);
-//                        printf(" Out \n");
-
+//                        printf("prob for %.2f and %.2f is %.2f. \n", loc_x, loc_y, prob);
                         if (prob > max_prob) {
                             max_prob = prob;
                             loc_x_optimal = loc_x;
                             loc_y_optimal = loc_y;
                             angle_optimal = angle_t;
                         }
-
                         angle_t = angle_t + delta_ang;
                     }
-
                     loc_y = loc_y + delta_y;
                 }
-
                 loc_x = loc_x + delta_x;
             }
         }
@@ -156,7 +151,7 @@ namespace slam {
         // A new laser scan has been observed. Decide whether to add it as a pose
         // for SLAM. If decided to add, align it to the scan from the last saved pose,
         // and save both the scan and the optimized pose.
-
+        printf("Observe Laser. \n");
         // Observe lidar and transform point cloud into vehicle frame
         point_cloud_.clear();
         Vector2f single_point_cloud = {0.0f, 0.0f};
@@ -177,6 +172,7 @@ namespace slam {
     }
 
     void SLAM::ObserveOdometry(const Vector2f& odom_loc, const float odom_angle) {
+//        printf("Odometry loc: %.2f, %.2f. \n", odom_loc.x(), odom_loc.y());
         if (!odom_initialized_)
         {
             prev_odom_angle_ = odom_angle;
@@ -195,7 +191,7 @@ namespace slam {
             Eigen::Rotation2Df rotate_map_prev(car_angle);
             odom_car_loc = car_loc + rotate_map_prev * delta_T;
             odom_car_angle = car_angle + odom_angle - prev_odom_angle_;
-
+            printf("Odometry loc: %.2f, %.2f; Car loc: %.2f, %.2f. \n", odom_car_loc.x(), odom_car_loc.y(), car_loc.x(), car_loc.y());
             prev_odom_loc_ = odom_loc;
             prev_odom_angle_ = odom_angle;
         }
@@ -209,7 +205,12 @@ namespace slam {
             printf("GetMap point_cloud_ empty. \n");
             return map_global;
         }
-
+        if (odom_initialized_){
+            if ((map_car_loc - car_loc).norm() < 0.5 && abs(map_car_angle - car_angle) < 30){
+                printf("Do not update map.\n");
+                return map_global;
+            }
+        }
         vector<Vector2f> point_cloud_rotated_back_origin;
 
         // Rotate current point cloud back to original frame (0, 0, 0)
@@ -225,6 +226,8 @@ namespace slam {
 
         map = map_global;
 
+        map_car_loc = car_loc;
+        map_car_angle = car_angle;
         return map;
     }
 
@@ -239,7 +242,7 @@ namespace slam {
         const double y_max = 5.0f;
         const double delta_x = 0.05f;
         const double delta_y = 0.05f;
-        const double sigma = 0.5f;
+        const double sigma = 1.0f;
 
         double x = - x_max;
         double y;
@@ -273,7 +276,7 @@ namespace slam {
         return cost_table;
     }
 
-// 2D Look-up Cost (transform current car's point clout to reference car's frame, then compute cost based on the difference between current point cloud and reference cloud)
+// 2D Look-up Cost (transform current car's point cloud to reference car's frame, then compute cost based on the difference between current point cloud and reference cloud)
 
     double SLAM::computeCost(const std::vector<Eigen::Vector2f>& point_cloud) {
 

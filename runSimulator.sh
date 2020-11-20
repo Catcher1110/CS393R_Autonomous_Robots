@@ -1,4 +1,4 @@
 #! /bin/bash
 
 cd ~/ut_automata
-./bin/simulator
+./bin/simulator --localize

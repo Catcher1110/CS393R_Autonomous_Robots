@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "eigen3/Eigen/Dense"
+#include "vector_map/vector_map.h"
 
 #ifndef NAVIGATION_H
 #define NAVIGATION_H
@@ -65,6 +66,30 @@ class Navigation {
   // Used to set the next target pose.
   void SetNavGoal(const Eigen::Vector2f& loc, float angle);
 
+  // Create the navigation graph
+  void GenerateNavGraph();
+  // Check whether the edge intercept with the wall
+  bool EdgeInterceptWall(std::pair<int, int> cell_1, std::pair<int, int> cell_2);
+
+  // Check Whether Reached Goal
+  bool ReachedGoal();
+
+  // Execute Path Planning
+  void MakePlan(Eigen::Vector2f start, Eigen::Vector2f end, std::vector<int>* path_index);
+
+  // Get the carrot location
+  void GetCarrot(Eigen::Vector2f* carrot_loc);
+
+  // Check whether the path is valid
+  bool PathStillValid();
+
+  // Convert the coordinate to the cell
+  std::pair<int, int> Coord2Cell(Eigen::Vector2f coord);
+  // Convert the cell to the id
+  int Cell2Id(std::pair<int, int> cell);
+  // Convert the id to the coord
+  Eigen::Vector2f Id2Coord(int id);
+
  private:
 
   // Current robot location.
@@ -80,12 +105,31 @@ class Navigation {
   // Odometry-reported robot angle.
   float odom_angle_;
 
+  //
+  vector_map::VectorMap map_;
+  // Use 2D Array to store the adjacent matrix
+  std::vector<int> map_x_id;
+  std::vector<int> map_y_id;
+  std::vector<double> map_id_value;
   // Whether navigation is complete.
   bool nav_complete_;
   // Navigation goal location.
   Eigen::Vector2f nav_goal_loc_;
   // Navigation goal angle.
   float nav_goal_angle_;
+
+  // Reach Goal tolerance
+  double reach_tolerance_ = 0.1;
+  //
+  std::vector<int> path_index;
+  Eigen::Vector2f carrot_;
+  // Grid
+  Eigen::Vector2f map_offset_ {-50, -50};
+  double const cell_size_ = 0.5;
+  int cols_ = 200;
+  int rows_ = 200;
+  // Plan Valid Checking tolerance
+  double valid_tolerance_ = 0.1;
 };
 
 }  // namespace navigation

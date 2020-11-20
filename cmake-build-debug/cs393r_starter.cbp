@@ -5,7 +5,7 @@
 		<Option title="cs393r_starter"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\shared\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\opt\ros\melodic\;CMake Files\..\..\..\..\opt\ros\melodic\share\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\core\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\core\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\;CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\platform\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\test\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\tools\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\templates\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslib\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslib\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospack\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospack\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslang\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslang\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genmsg\;CMake Files\..\..\..\..\opt\ros\melodic\share\genmsg\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\gencpp\;CMake Files\..\..\..\..\opt\ros\melodic\share\gencpp\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\geneus\;CMake Files\..\..\..\..\opt\ros\melodic\share\geneus\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genlisp\;CMake Files\..\..\..\..\opt\ros\melodic\share\genlisp\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\gennodejs\;CMake Files\..\..\..\..\opt\ros\melodic\share\gennodejs\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genpy\;CMake Files\..\..\..\..\opt\ros\melodic\share\genpy\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslisp\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslisp\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\roscpp\;CMake Files\..\..\..\..\opt\ros\melodic\share\roscpp\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospy\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospy\rosbuild\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\src\;CMake Files\..\..\..\..\usr\src\googletest\;CMake Files\..\..\..\..\usr\src\googletest\googlemock\;CMake Files\..\..\..\..\usr\src\googletest\googletest\;CMake Files\..\..\..\..\usr\src\googletest\googletest\cmake\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\catkin\;CMake Files\cmake-build-debug\catkin\catkin_generated\;CMake Files\cmake-build-debug\catkin\catkin_generated\version\;CMake Files\cmake-build-debug\catkin_generated\;CMake Files\cmake-build-debug\catkin_generated\installspace\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\shared\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\opt\ros\melodic\;CMake Files\..\..\..\..\opt\ros\melodic\share\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\core\;CMake Files\..\..\..\..\opt\ros\melodic\share\ros\core\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\platform\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\test\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\tools\;CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\templates\;CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\;CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslib\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslib\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospack\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospack\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslang\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslang\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genmsg\;CMake Files\..\..\..\..\opt\ros\melodic\share\genmsg\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\gencpp\;CMake Files\..\..\..\..\opt\ros\melodic\share\gencpp\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\geneus\;CMake Files\..\..\..\..\opt\ros\melodic\share\geneus\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genlisp\;CMake Files\..\..\..\..\opt\ros\melodic\share\genlisp\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\gennodejs\;CMake Files\..\..\..\..\opt\ros\melodic\share\gennodejs\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\genpy\;CMake Files\..\..\..\..\opt\ros\melodic\share\genpy\cmake\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslisp\;CMake Files\..\..\..\..\opt\ros\melodic\share\roslisp\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\roscpp\;CMake Files\..\..\..\..\opt\ros\melodic\share\roscpp\rosbuild\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospy\;CMake Files\..\..\..\..\opt\ros\melodic\share\rospy\rosbuild\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\src\;CMake Files\..\..\..\..\usr\src\googletest\;CMake Files\..\..\..\..\usr\src\googletest\googlemock\;CMake Files\..\..\..\..\usr\src\googletest\googletest\;CMake Files\..\..\..\..\usr\src\googletest\googletest\cmake\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\catkin\;CMake Files\cmake-build-debug\catkin\catkin_generated\;CMake Files\cmake-build-debug\catkin\catkin_generated\version\;CMake Files\cmake-build-debug\catkin_generated\;CMake Files\cmake-build-debug\catkin_generated\installspace\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
@@ -253,16 +253,6 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="download_extra_data">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 download_extra_data"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="test-results-run">
 				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
 				<Option type="4"/>
@@ -273,31 +263,11 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="tests">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 tests"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="ROSBUILD_gensrv_cpp">
 				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 ROSBUILD_gensrv_cpp"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rospack_genmsg">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rospack_genmsg"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -318,6 +288,106 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 ROSBUILD_gensrv_lisp"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="_catkin_empty_exported_target">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 _catkin_empty_exported_target"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="tests">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 tests"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="download_extra_data">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 download_extra_data"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="doxygen">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 doxygen"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rosbuild_precompile">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rosbuild_precompile"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test-results">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 test-results"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="run_tests">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 run_tests"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="clean_test_results">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean_test_results"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rospack_genmsg">
+				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rospack_genmsg"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -348,76 +418,6 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rospack_genmsg_libexe"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="doxygen">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 doxygen"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="test-results">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 test-results"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rosbuild_precompile">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rosbuild_precompile"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="run_tests">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 run_tests"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="clean_test_results">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean_test_results"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="install/local">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="_catkin_empty_exported_target">
-				<Option working_dir="/home/jianc/projects/cs393r_starter/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 _catkin_empty_exported_target"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/jianc/projects/cs393r_starter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -597,9 +597,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googlemock/include"/>
 					<Add directory="/usr/src/googletest/googlemock"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
@@ -630,9 +627,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googlemock/include"/>
 					<Add directory="/usr/src/googletest/googlemock"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
@@ -663,9 +657,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googlemock/include"/>
 					<Add directory="/usr/src/googletest/googlemock"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
@@ -696,9 +687,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googlemock/include"/>
 					<Add directory="/usr/src/googletest/googlemock"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
@@ -729,9 +717,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
 					<Add directory="/usr/src/googletest/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -760,9 +745,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
 					<Add directory="/usr/src/googletest/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -791,9 +773,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
 					<Add directory="/usr/src/googletest/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -822,9 +801,6 @@
 					<Add option="-DGTEST_CREATE_SHARED_LIBRARY=1"/>
 					<Add option="-DROS_PACKAGE_NAME=&quot;cs393r_starter&quot;"/>
 					<Add directory="/home/jianc/projects/cs393r_starter/include"/>
-					<Add directory="/home/jianc/ut_automata/msg_gen/cpp/include"/>
-					<Add directory="/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include"/>
-					<Add directory="/opt/ros/melodic/include"/>
 					<Add directory="/usr/src/googletest/googletest/include"/>
 					<Add directory="/usr/src/googletest/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -1020,15 +996,6 @@
 		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/ros/core/rosbuild/rosconfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\ros\core\rosbuild\"/>
 		</Unit>
-		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunit-extras.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
-		</Unit>
-		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunitConfig-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
-		</Unit>
-		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunitConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
-		</Unit>
 		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/catkin/package.xml">
 			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\"/>
 		</Unit>
@@ -1184,6 +1151,15 @@
 		</Unit>
 		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/catkin/cmake/templates/setup.zsh.in">
 			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\catkin\cmake\templates\"/>
+		</Unit>
+		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunit-extras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
+		</Unit>
+		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunitConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
+		</Unit>
+		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/rosunit/cmake/rosunitConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\rosunit\cmake\"/>
 		</Unit>
 		<Unit filename="/home/jianc/projects/cs393r_starter/../../../../opt/ros/melodic/share/roslib/cmake/roslib-extras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\melodic\share\roslib\cmake\"/>

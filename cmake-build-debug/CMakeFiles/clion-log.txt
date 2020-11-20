@@ -65,19 +65,7 @@ Call Stack (most recent call first):
 
 
 [rosbuild] Building package cs393r_starter
-[rosbuild] using multiarch 'x86_64-linux-gnu' for finding Boost
-CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/public.cmake:366 (cmake_policy):
-  The OLD behavior for policy CMP0037 will be removed from a future version
-  of CMake.
-
-  The cmake-policies(7) manual explains that the OLD behaviors of all
-  policies are deprecated and that a policy should be set to OLD only under
-  specific short-term circumstances.  Projects should be ported to the NEW
-  behavior and not rely on setting a policy to OLD.
-Call Stack (most recent call first):
-  CMakeLists.txt:20 (ROSBUILD_INIT)
-
-
+[rosbuild] Cached build flags older than manifests; calling rospack to get flags
 -- Using CATKIN_DEVEL_PREFIX: /home/jianc/projects/cs393r_starter/cmake-build-debug/devel
 -- Using CMAKE_PREFIX_PATH: /opt/ros/melodic
 -- This workspace overlays: /opt/ros/melodic
@@ -92,8 +80,21 @@ Call Stack (most recent call first):
 -- Found gmock sources under '/usr/src/googletest': gmock will be built
 -- Found PythonInterp: /usr/bin/python (found version "2.7.17") 
 -- Using Python nosetests: /usr/bin/nosetests-2.7
--- catkin 0.7.28
+-- catkin 0.7.29
 -- BUILD_SHARED_LIBS is on
+[rosbuild] using multiarch 'x86_64-linux-gnu' for finding Boost
+CMake Deprecation Warning at /opt/ros/melodic/share/ros/core/rosbuild/public.cmake:366 (cmake_policy):
+  The OLD behavior for policy CMP0037 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  CMakeLists.txt:20 (ROSBUILD_INIT)
+
+
 -- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
 [rosbuild] Including /opt/ros/melodic/share/roslisp/rosbuild/roslisp.cmake
 [rosbuild] Including /opt/ros/melodic/share/roscpp/rosbuild/roscpp.cmake

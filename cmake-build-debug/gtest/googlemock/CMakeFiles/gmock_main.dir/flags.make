@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++11 -Wall -Werror -g -O2 -g -DNDEBUG -fPIC   -std=c++11 -Wall
 
 CXX_DEFINES = -DGTEST_CREATE_SHARED_LIBRARY=1 -DROS_PACKAGE_NAME=\"cs393r_starter\" -Dgmock_main_EXPORTS
 
-CXX_INCLUDES = -I/home/jianc/projects/cs393r_starter/include -I/home/jianc/ut_automata/msg_gen/cpp/include -I/home/jianc/amrl_libraries/amrl_msgs/msg_gen/cpp/include -I/opt/ros/melodic/include -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest 
+CXX_INCLUDES = -I/home/jianc/projects/cs393r_starter/include -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest 
 

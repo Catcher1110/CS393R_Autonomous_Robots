@@ -120,7 +120,7 @@ void PublishPose() {
 }
 
 void LaserCallback(const sensor_msgs::LaserScan& msg) {
-//    printf("LaserCallback. \n");
+    printf("LaserCallback. \n");
     if (FLAGS_v > 0) {
         printf("Laser t=%f\n", msg.header.stamp.toSec());
     }
@@ -131,8 +131,16 @@ void LaserCallback(const sensor_msgs::LaserScan& msg) {
             msg.range_max,
             msg.angle_min,
             msg.angle_max);
-    PublishMap();
+
+//    vector<Vector2f> scan;
+//    const uint32_t kColor = 0x4B0082;
+//    slam_.GetLaserScan(&scan);
+//    for (const Vector2f& p : scan) {
+//        DrawPoint(p, kColor, vis_msg_);
+//    }
+
     PublishPose();
+    PublishMap();
 }
 
 void OdometryCallback(const nav_msgs::Odometry& msg) {

@@ -54,6 +54,7 @@ namespace slam {
         // Get latest robot pose.
         void GetPose(Eigen::Vector2f* loc, float* angle);
 
+
     private:
 
         std::vector<std::vector<double>> generateCostTable2D(const std::vector<Eigen::Vector2f>& point_cloud);
@@ -77,6 +78,8 @@ namespace slam {
 
         // Map
         std::vector<Eigen::Vector2f> map_global;
+        Eigen::Vector2f map_car_loc;
+        double map_car_angle;
     };
 }  // namespace slam
 
