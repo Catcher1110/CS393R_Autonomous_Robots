@@ -76,13 +76,28 @@ Navigation::Navigation(const string& map_file, ros::NodeHandle* n) :
   map_.Load(map_file);
   printf("Map Loaded! %d \n", int(map_.lines.size()));
   GenerateNavGraph();
-  printf("Generate the map. (%d, %d, %d) \n", int(map_x_id.size()), int(map_y_id.size()), int(map_id_value.size()));
+  printf("Generate the map. (Edge num: %d) \n", AdjMap.edgeNum);
+}
+
+void Navigation::AddEdge2Graph(int vertex, int toVertex, float weight){
+    EdgeNode *temp_edge  = new EdgeNode {toVertex, weight, NULL};
+    if (AdjMap.adjList[vertex].firstEdge != NULL){
+        temp_edge->next = AdjMap.adjList[vertex].firstEdge;
+        AdjMap.adjList[vertex].firstEdge = temp_edge;
+    }else {
+        AdjMap.adjList[vertex].firstEdge = temp_edge;
+    }
+    AdjMap.edgeNum ++;
 }
 
 void Navigation::GenerateNavGraph() {
-    map_x_id.clear();
-    map_y_id.clear();
-    map_id_value.clear();
+    // Initialize the AdjMap
+    for (int i = 0; i < rows_ * cols_; ++i) {
+        VertexNode temp_node {i, NULL};
+        AdjMap.adjList.push_back(temp_node);
+    }
+    AdjMap.vertexNum = rows_ * cols_;
+
     std::pair<int, int> temp_cell_1;
     std::pair<int, int> temp_cell_2;
     for (int i = 0; i < rows_; ++i) {
@@ -92,68 +107,52 @@ void Navigation::GenerateNavGraph() {
             if (i > 0){
                 temp_cell_2 = std::make_pair(i - 1, j);
                 if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-                    map_x_id.push_back(Cell2Id(temp_cell_1));
-                    map_y_id.push_back(Cell2Id(temp_cell_2));
-                    map_id_value.push_back(1);
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), 1);
                 }
             }
             if (j > 0){
                 temp_cell_2 = std::make_pair(i, j - 1);
                 if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-                    map_x_id.push_back(Cell2Id(temp_cell_1));
-                    map_y_id.push_back(Cell2Id(temp_cell_2));
-                    map_id_value.push_back(1);
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), 1);
                 }
             }
             if (i < rows_ - 1){
                 temp_cell_2 = std::make_pair(i + 1, j);
                 if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-                    map_x_id.push_back(Cell2Id(temp_cell_1));
-                    map_y_id.push_back(Cell2Id(temp_cell_2));
-                    map_id_value.push_back(1);
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), 1);
                 }
             }
             if (j < cols_ - 1){
                 temp_cell_2 = std::make_pair(i, j + 1);
                 if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-                    map_x_id.push_back(Cell2Id(temp_cell_1));
-                    map_y_id.push_back(Cell2Id(temp_cell_2));
-                    map_id_value.push_back(1);
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), 1);
                 }
             }
-            // Uncomment these if want to have more vertices
-//            if (i > 0 && j > 0){
-//                temp_cell_2 = std::make_pair(i - 1, j - 1);
-//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-//                    map_x_id.push_back(Cell2Id(temp_cell_1));
-//                    map_y_id.push_back(Cell2Id(temp_cell_2));
-//                    map_id_value.push_back(sqrt(2));
-//                }
-//            }
-//            if (i < rows_ - 1 && j > 0) {
-//                temp_cell_2 = std::make_pair(i + 1, j - 1);
-//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-//                    map_x_id.push_back(Cell2Id(temp_cell_1));
-//                    map_y_id.push_back(Cell2Id(temp_cell_2));
-//                    map_id_value.push_back(sqrt(2));
-//                }
-//            }
-//            if (i > 0 && j < cols_ - 1) {
-//                temp_cell_2 = std::make_pair(i - 1, j + 1);
-//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-//                    map_x_id.push_back(Cell2Id(temp_cell_1));
-//                    map_y_id.push_back(Cell2Id(temp_cell_2));
-//                    map_id_value.push_back(sqrt(2));
-//                }
-//            }
-//            if (i < rows_ - 1 && j < cols_ - 1){
-//                temp_cell_2 = std::make_pair(i + 1, j + 1);
-//                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
-//                    map_x_id.push_back(Cell2Id(temp_cell_1));
-//                    map_y_id.push_back(Cell2Id(temp_cell_2));
-//                    map_id_value.push_back(sqrt(2));
-//                }
-//            }
+            // Uncomment these if want to have 8-connect grid
+            if (i > 0 && j > 0){
+                temp_cell_2 = std::make_pair(i - 1, j - 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), sqrt(2));
+                }
+            }
+            if (i < rows_ - 1 && j > 0) {
+                temp_cell_2 = std::make_pair(i + 1, j - 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), sqrt(2));
+                }
+            }
+            if (i > 0 && j < cols_ - 1) {
+                temp_cell_2 = std::make_pair(i - 1, j + 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), sqrt(2));
+                }
+            }
+            if (i < rows_ - 1 && j < cols_ - 1){
+                temp_cell_2 = std::make_pair(i + 1, j + 1);
+                if (!EdgeInterceptWall(temp_cell_1, temp_cell_2)){
+                    AddEdge2Graph(Cell2Id(temp_cell_1), Cell2Id(temp_cell_2), sqrt(2));
+                }
+            }
         }
     }
 }
@@ -186,14 +185,17 @@ void Navigation::SetNavGoal(const Vector2f& loc, float angle) {
 
     // Clear the previous planned path and re-plan
     path_index.clear();
-    MakePlan(robot_loc_, nav_goal_loc_, &path_index);
+    MakePlan(robot_loc_, nav_goal_loc_);
     // Clear the previous global visualization info
     visualization::ClearVisualizationMsg(global_viz_msg_);
     // Draw the navigation goal
     visualization::DrawCross(loc, 0.2, 0x000000, global_viz_msg_);
-//    for (int i = 0; i < int(map_x_id.size()); ++i) {
-//        visualization::DrawLine(Id2Coord(map_x_id[i]) + map_offset_, Id2Coord(map_y_id[i]) + map_offset_, 0xFF00FF, global_viz_msg_);
-//    }
+    // Draw the Optimal Path
+    printf("Path length: %d \n", int(path_index.size()));
+    for (int i = 0; i < int(path_index.size()) - 1; ++i) {
+        visualization::DrawLine(Id2Coord(path_index[i]) + map_offset_, Id2Coord(path_index[i+1]) + map_offset_, 0x0000FF, global_viz_msg_);
+    }
+    printf("Path Start: %d,  End: %d \n", path_index[0], path_index[int(path_index.size()) - 1]);
 }
 
 void Navigation::UpdateLocation(const Eigen::Vector2f& loc, float angle) {
@@ -364,7 +366,7 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
 
         curvature = curvature + delta_curvature;
     }
-    visualization::DrawCross(Vector2f(3, 0), 0.2, 0x000000, local_viz_msg_);
+//    visualization::DrawCross(Vector2f(3, 0), 0.2, 0x000000, local_viz_msg_);
     // Find best arc
     while (k < free_arc_length.size())
     {
@@ -429,9 +431,8 @@ Vector2f Navigation::Id2Coord(int id){
     return coord;
 }
 
-void Navigation::MakePlan(Eigen::Vector2f start, Eigen::Vector2f end, std::vector<int>* path_) {
-    std::vector<int> &path = *path_;
-    path.clear();
+void Navigation::MakePlan(Eigen::Vector2f start, Eigen::Vector2f end) {
+    path_index.clear();
 
     std::pair<int, int> start_cell = Coord2Cell(start);
     std::pair<int, int> end_cell = Coord2Cell(end);
@@ -442,23 +443,65 @@ void Navigation::MakePlan(Eigen::Vector2f start, Eigen::Vector2f end, std::vecto
     printf("Start Id: %d, End Id: %d \n", start_cell_id, end_cell_id);
 
     // Search for the optimal path
-
+    Dijkstra(start_cell_id, end_cell_id);
     //
     printf("Make plan successfully! \n");
-    // Draw optimal Path
-    for (int i = 0; i < int(path.size()) - 1; ++i) {
-        visualization::DrawLine(Id2Coord(path[i]) + map_offset_, Id2Coord(path[i+1]) + map_offset_, 0xFF00FF, global_viz_msg_);
+}
+
+void Navigation::Dijkstra(int startVertexId, int goalVertexId) {
+    int VERTEX_NUM = AdjMap.vertexNum;
+    float MAX_COST = 1000000;
+    SimpleQueue<int, float> frontier;
+    frontier.Push(startVertexId, 0);
+    std::map<int, int> parent;
+    parent[startVertexId] = -1;
+    std::map<int, float> cost;
+    for (int i = 0; i < VERTEX_NUM; ++i) {
+        cost[i] = MAX_COST;
     }
+    cost[startVertexId] = 0;
+
+    while (!frontier.Empty()){
+        int current = frontier.Pop();
+        if (current == goalVertexId){
+            printf("Path Found!\n");
+            break;
+        }
+        auto Edge2nextVertex = AdjMap.adjList[current].firstEdge;
+        while (Edge2nextVertex != NULL){
+            float new_cost = cost[current] + Edge2nextVertex->weight;
+            if (new_cost < cost[Edge2nextVertex->toAdjVex]){
+                cost[Edge2nextVertex->toAdjVex] = new_cost;
+                frontier.Push(Edge2nextVertex->toAdjVex, new_cost);
+                parent[Edge2nextVertex->toAdjVex] = current;
+            }
+            Edge2nextVertex = Edge2nextVertex->next;
+        }
+    }
+    int current = goalVertexId;
+    while (current != startVertexId){
+        path_index.push_back(current);
+        current = parent[current];
+    }
+    path_index.push_back(startVertexId);
+    std::reverse(path_index.begin(), path_index.end());
 }
 
 bool Navigation::PathStillValid() {
     std::reverse(path_index.begin(), path_index.end());
     for (int i = 0; i < int(path_index.size()); ++i) {
         // Check whether the robot is close to the planned path
-
-        return true;
+        if ((Id2Coord(path_index[i]) + map_offset_ - robot_loc_).norm() < valid_tolerance_){
+            std::reverse(path_index.begin(), path_index.end());
+            return true;
+        }
     }
+    std::reverse(path_index.begin(), path_index.end());
     return false;
+//    printf("First Path: %d, robot loc (%.2f, %.2f) \n", path_index[0], robot_loc_.x(), robot_loc_.y());
+//    printf("start loc (%.2f, %.2f) \n", (Id2Coord(path_index[0]) + map_offset_).x(), (Id2Coord(path_index[0]) + map_offset_).y());
+//    printf("Valid %.2f \n", (Id2Coord(path_index[0]) + map_offset_ - robot_loc_).norm());
+//    return true;
 }
 
 bool Navigation::ReachedGoal() {
@@ -474,6 +517,27 @@ bool Navigation::ReachedGoal() {
     }
 }
 
+void Navigation::GetCarrot() {
+//    printf("Update Carrot! \n");
+    std::reverse(path_index.begin(), path_index.end());
+    int carrotId = 0;
+    // Check whether the robot is close to the goal
+    if ((Id2Coord(path_index[0]) + map_offset_ - robot_loc_).norm() < carrot_radius) {
+        carrot_ = Id2Coord(path_index[0]);
+        std::reverse(path_index.begin(), path_index.end());
+        return;
+    }
+    for (int i = 1; i < int(path_index.size()); ++i) {
+        if ((Id2Coord(path_index[i]) + map_offset_ - robot_loc_).norm() < carrot_radius){
+            carrotId = i - 1;
+            break;
+        }
+    }
+    carrot_ = Id2Coord(path_index[carrotId]);
+    std::reverse(path_index.begin(), path_index.end());
+    return;
+}
+
 void Navigation::Run() {
     static vector<float> velocity_log;
     static vector<float> curvature_log;
@@ -486,9 +550,11 @@ void Navigation::Run() {
     if (!PathStillValid()) {
         printf("The planned path is invalid! \n");
         // Re-plan the path
-        MakePlan(robot_loc_, nav_goal_loc_, &path_index);
+        MakePlan(robot_loc_, nav_goal_loc_);
     }
-//    GetCarrot(&carrot_);
+    // Get and Draw the carrot
+    GetCarrot();
+    visualization::DrawCross(carrot_ + map_offset_, 0.2, 0x00FF00, global_viz_msg_);
     // Run Obstacle Avoidance
 
 

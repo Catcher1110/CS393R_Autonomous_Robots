@@ -33,6 +33,24 @@ namespace ros {
 
 namespace navigation {
 
+typedef struct EdgeNode {
+    int toAdjVex; // The index of vertex array which this edge points to
+    float weight; // The edge weight
+    struct EdgeNode *next; // The next edge, note that it only means the next edge also links to the vertex which this
+                           // edge links to
+} EdgeNode;
+
+typedef struct VertexNode {
+    int VertexId; // Vertex Id
+    struct EdgeNode* firstEdge; // The first edge which the vertex points to
+} VertexNode;
+
+typedef struct {
+    std::vector<VertexNode> adjList; // Adjacency list, which stores the all vertex
+    int vertexNum; // The number of vertex
+    int edgeNum; // The number of edge
+} AdjListGraph;
+
 struct PathOption {
   float curvature;
   float clearance;
@@ -70,15 +88,20 @@ class Navigation {
   void GenerateNavGraph();
   // Check whether the edge intercept with the wall
   bool EdgeInterceptWall(std::pair<int, int> cell_1, std::pair<int, int> cell_2);
+  // Add the edge to the graph
+  void AddEdge2Graph(int vertex, int toVertex, float weight);
 
   // Check Whether Reached Goal
   bool ReachedGoal();
 
   // Execute Path Planning
-  void MakePlan(Eigen::Vector2f start, Eigen::Vector2f end, std::vector<int>* path_index);
+  void MakePlan(Eigen::Vector2f start, Eigen::Vector2f end);
+
+  // Dijkstra Algorithm
+  void Dijkstra(int startVertexId, int goalVertexId);
 
   // Get the carrot location
-  void GetCarrot(Eigen::Vector2f* carrot_loc);
+  void GetCarrot();
 
   // Check whether the path is valid
   bool PathStillValid();
@@ -107,10 +130,8 @@ class Navigation {
 
   //
   vector_map::VectorMap map_;
-  // Use 2D Array to store the adjacent matrix
-  std::vector<int> map_x_id;
-  std::vector<int> map_y_id;
-  std::vector<double> map_id_value;
+  // Use Adjacency list to store the map graph
+  AdjListGraph AdjMap;
   // Whether navigation is complete.
   bool nav_complete_;
   // Navigation goal location.
@@ -119,17 +140,18 @@ class Navigation {
   float nav_goal_angle_;
 
   // Reach Goal tolerance
-  double reach_tolerance_ = 0.1;
+  double reach_tolerance_ = 0.2;
   //
   std::vector<int> path_index;
   Eigen::Vector2f carrot_;
+  double carrot_radius = 3;
   // Grid
   Eigen::Vector2f map_offset_ {-50, -50};
-  double const cell_size_ = 0.5;
-  int cols_ = 200;
-  int rows_ = 200;
+  double const cell_size_ = 0.25;
+  int cols_ = 400;
+  int rows_ = 400;
   // Plan Valid Checking tolerance
-  double valid_tolerance_ = 0.1;
+  double valid_tolerance_ = 0.36;
 };
 
 }  // namespace navigation
