@@ -224,194 +224,6 @@ void Navigation::ObservePointCloud(const vector<Vector2f>& cloud,
 //        visualization::DrawPoint({i.x(), i.y()}, 0x000000, local_viz_msg_);
 //    }
     point_cloud_ = cloud;
-//    // Vehicle's parameters
-//    const double car_w = 0.281f; // Vehicle's width
-//    const double car_l = 0.535f; // Vehicle's length
-//    const double car_wheelbase = 0.324f; // Wheelbase
-//    const double car_m = 0.15f; // Vehicle's Safety Margin
-//    const double x_lim = 100.0f; // Max sensing length
-//    const double pi_value = 3.1415926f; // PI
-//    const double curvature_max = 1.0f; // Max Curvature
-//    const double delta_curvature = 0.01f; // Curvature Increment
-//    const double clearance_max = 100.f; // Max clearance
-//    const double free_arc_angle_max = 2.0f * pi_value; // 2*PI
-//    const double weight_free = 1.0f; // Weight factor for free arc length
-//    const double weight_clear = 20.0f; // weight factor for clearance
-//    const double weight_distance = -1.0f; // weight for distance to goal
-//
-//    // Initialize
-//    vector<double> free_arc_length; // Free arc length
-//    vector<double> min_clearance; // Minimum clearance
-//    vector<double> distance2goal; // Distance to goal
-//    double curvature = 0.0f;
-//    double x = 0.0f;
-//    double y = 0.0f;
-//    double r = 0.0f;
-//    double d = 0.0f;
-//    double d_min = 0.0f;
-//    double d_max = 0.0f;
-//    double score = 0.0f;
-//    double max_score = 0.0f;
-//    unsigned int k = 0;
-//    unsigned int max_index = 0;
-//
-//    // Compute free arc length
-//    curvature = -curvature_max; // Curvature from -1 to 1
-//
-//    while(curvature <= curvature_max)
-//    {
-//        double min_arc_angle = free_arc_angle_max;
-//        double min_arc_length = 0.0f;
-//	    double clearance_min = clearance_max;
-//
-//        if (abs(curvature) > 0.001f)
-//        {
-//            r = abs(1.0f / curvature); // Radius
-//            Vector2f circle_center = {0, 1/curvature}; // Circle center coordination
-//            double distance = sqrt(3 * 3 + r * r) - r;
-//            distance2goal.push_back(distance);
-//            d_min = r - car_w * 0.5f - car_m;
-//            d_max = sqrt((r + car_w * 0.5f + car_m) * (r + car_w * 0.5f + car_m) + ((car_l + car_wheelbase)/2 + car_m) * ((car_l + car_wheelbase)/2 + car_m));
-//
-//            unsigned int i = 0;
-//
-//            while (i < cloud.size())
-//            {
-//                x = cloud[i][0];
-//                y = cloud[i][1];
-//
-//                if (abs(x) > 0.0f)
-//                {
-//                    d = sqrt(x * x + (circle_center[1] - y)*(circle_center[1] - y)); // Single Cloud Point to the Circle center
-//
-//                    if (d < d_min) // Calculate inner clearance
-//                    {
-//                        clearance_min = std::min(clearance_min, d_min - d);
-//                    }
-//		            else if (d > d_max) // Calculate outer clearance
-//                    {
-//                        clearance_min = std::min(clearance_min, d - d_max);
-//                    }
-//		            else // The point is on the way
-//                    {
-//                        if (x > 0.0f)
-//                        {
-//                            if (abs(y) < r)
-//                            {
-//                                min_arc_angle = std::min(asin(x / d), min_arc_angle);
-//                            }
-//                            else
-//                            {
-//                                min_arc_angle = std::min((pi_value - asin(x / d)), min_arc_angle);
-//                            }
-//                        }
-//                        else
-//                        {
-//                            if (abs(y) > r)
-//                            {
-//                                min_arc_angle = std::min((pi_value + asin(abs(x) / d)), min_arc_angle);
-//                            }
-//                            else
-//                            {
-//                                min_arc_angle = std::min((2.0f * pi_value - asin(abs(x) / d)), min_arc_angle);
-//                            }
-//
-//                        }
-//                    }
-//                }
-//                i++;
-//            }
-//            min_arc_length = min_arc_angle * r;
-//            float s_angle = 0.0f;
-//            float e_angle = 0.0f;
-//            if(curvature > 0){
-//                s_angle = -pi_value/2;
-//                e_angle = s_angle + min_arc_angle;
-//            }else{
-//                s_angle = pi_value/2 - min_arc_angle;
-//                e_angle = pi_value/2;
-//            }
-//            visualization::DrawArc({0, 1/curvature}, r, s_angle, e_angle, 0xFF00FF, local_viz_msg_);
-//        }
-//        else
-//        {
-//            distance2goal.push_back(3.0f);
-//            min_arc_length = x_lim;
-//
-//            unsigned int j = 0;
-//
-//            while (j < cloud.size())
-//            {
-//                x = cloud[j][0];
-//                y = cloud[j][1];
-//
-//                if (x > 0.0f && abs(y) < (car_w * 0.5f + car_m))
-//                {
-//                    min_arc_length = std::min(x, min_arc_length);
-//                }
-//		        else if (x > 0.0f && y < - car_w * 0.5f - car_m)
-//		        {
-//                    clearance_min = std::min(clearance_min, - car_w * 0.5f - car_m - y);
-//                }
-//		        else if (x > 0.0f && y > car_w * 0.5f + car_m)
-//		        {
-//                    clearance_min = std::min(clearance_min, y - car_w * 0.5f - car_m);
-//                }
-//                j++;
-//            }
-//            visualization::DrawLine({0,0}, {min_arc_length, 0}, 0xFF00FF, local_viz_msg_);
-//        }
-//        if (min_arc_length > 100){
-//            min_arc_length = 100;
-//        }
-//        free_arc_length.push_back(min_arc_length);
-//	    min_clearance.push_back(clearance_min);
-//
-//        curvature = curvature + delta_curvature;
-//    }
-////    visualization::DrawCross(Vector2f(3, 0), 0.2, 0x000000, local_viz_msg_);
-//    // Find best arc
-//    while (k < free_arc_length.size())
-//    {
-//        score = weight_free * free_arc_length[k] + weight_clear * min_clearance[k] + weight_distance * distance2goal[k];
-//
-//        if (score > max_score)
-//        {
-//            max_score = score;
-//            max_index = k;
-//        }
-//        k++;
-//    }
-//    double best_curvature = - curvature_max + delta_curvature * max_index;
-//    if (abs(best_curvature) > 0.001){
-//        double radius = abs(1/best_curvature);
-//        visualization::DrawArc({0, 1/best_curvature}, radius, 0, 2 * pi_value, 0x0000, local_viz_msg_);
-//    }else{
-//        visualization::DrawLine({0,0}, {3,0}, 0x0000, local_viz_msg_);
-//    }
-//
-//
-////    viz_pub_.publish(local_viz_msg_);
-//
-//    // Execute motion on best arc
-//    if (free_arc_length[max_index] > 0.01f)
-//    {
-//
-//        drive_msg_.velocity = 1.0f;
-////        drive_msg_.curvature = 0.1f;
-//        drive_msg_.curvature =  - curvature_max + delta_curvature * max_index;
-//
-//        drive_msg_.velocity = 0.0f;
-//        drive_msg_.curvature = 0.0f;
-//    }
-//    else
-//    {
-//        printf("Free arc length is too short!\n");
-////        printf("");
-//        drive_msg_.velocity = 0.0f;
-//        drive_msg_.curvature = 0.0f;
-//    }
-//    drive_pub_.publish(drive_msg_);
 }
 
 std::pair<int, int> Navigation::Coord2Cell(Eigen::Vector2f coord){
@@ -501,10 +313,6 @@ bool Navigation::PathStillValid() {
     }
     std::reverse(path_index.begin(), path_index.end());
     return false;
-//    printf("First Path: %d, robot loc (%.2f, %.2f) \n", path_index[0], robot_loc_.x(), robot_loc_.y());
-//    printf("start loc (%.2f, %.2f) \n", (Id2Coord(path_index[0]) + map_offset_).x(), (Id2Coord(path_index[0]) + map_offset_).y());
-//    printf("Valid %.2f \n", (Id2Coord(path_index[0]) + map_offset_ - robot_loc_).norm());
-//    return true;
 }
 
 bool Navigation::ReachedGoal() {
@@ -751,10 +559,7 @@ void Navigation::Run() {
     }
     // Get and Draw the carrot
     GetCarrot();
-    // Test whether Global2Local function is correct
-//    Vector2f temp_loc = Global2Local(carrot_);
-//    visualization::DrawCross(temp_loc, 0.1, 0xFFFF00, local_viz_msg_);
-//    viz_pub_.publish(local_viz_msg_);
+
     // Run Obstacle Avoidance
     RunObstacleAvoidance();
 //    for(const auto & i : point_cloud_){
@@ -764,16 +569,6 @@ void Navigation::Run() {
     viz_pub_.publish(global_viz_msg_);
 
   // Create Helper functions here
-//  visualization::ClearVisualizationMsg(local_viz_msg_);
-
-////  drive_msg_.velocity = 1;
-////  drive_msg_.curvature = 0;
-////  drive_pub_.publish(drive_msg_);
-//    visualization::DrawCross(Vector2f(3, 0), 0.2, 0xFF0000, local_viz_msg_);
-//    visualization::DrawArc({0,0}, 10, 30, 90, 0xFF0000, local_viz_msg_);
-//    viz_pub_.publish(local_viz_msg_);
-  // Milestone 1 will fill out part of this class.
-  // Milestone 3 will complete the rest of navigation.
 }
 
 }  // namespace navigation
