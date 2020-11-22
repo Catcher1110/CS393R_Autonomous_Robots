@@ -55,6 +55,8 @@ struct PathOption {
   float curvature;
   float clearance;
   float free_path_length;
+  float distance2goal;
+  float score;
   Eigen::Vector2f obstruction;
   Eigen::Vector2f closest_point;
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
@@ -84,6 +86,11 @@ class Navigation {
   // Used to set the next target pose.
   void SetNavGoal(const Eigen::Vector2f& loc, float angle);
 
+  // Run Obstacle Avoidance
+  void RunObstacleAvoidance();
+  // Change the global carrot coordinate to the robot coordinate
+  Eigen::Vector2f Global2Local(Eigen::Vector2f global_loc);
+
   // Create the navigation graph
   void GenerateNavGraph();
   // Check whether the edge intercept with the wall
@@ -100,6 +107,8 @@ class Navigation {
   // Dijkstra Algorithm
   void Dijkstra(int startVertexId, int goalVertexId);
 
+  // Draw Optimal Path
+  void DrawPath();
   // Get the carrot location
   void GetCarrot();
 
@@ -129,6 +138,8 @@ class Navigation {
   float odom_angle_;
 
   //
+  std::vector<PathOption> path_option_;
+  std::vector<Eigen::Vector2f> point_cloud_;
   vector_map::VectorMap map_;
   // Use Adjacency list to store the map graph
   AdjListGraph AdjMap;
@@ -140,18 +151,19 @@ class Navigation {
   float nav_goal_angle_;
 
   // Reach Goal tolerance
-  double reach_tolerance_ = 0.2;
+  bool close2goal;
+  double reach_tolerance_ = 0.6;
   //
   std::vector<int> path_index;
   Eigen::Vector2f carrot_;
-  double carrot_radius = 3;
+  double carrot_radius = 1.5;
   // Grid
   Eigen::Vector2f map_offset_ {-50, -50};
   double const cell_size_ = 0.25;
   int cols_ = 400;
   int rows_ = 400;
   // Plan Valid Checking tolerance
-  double valid_tolerance_ = 0.36;
+  double valid_tolerance_ = 0.5;
 };
 
 }  // namespace navigation
