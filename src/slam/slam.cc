@@ -12,12 +12,6 @@
 //  Version 3 in the file COPYING that came with this distribution.
 //  If not, see <http://www.gnu.org/licenses/>.
 //========================================================================
-/*!
-\file    slam.cc
-\brief   SLAM Starter Code
-\author  Joydeep Biswas, (C) 2019
-*/
-//========================================================================
 
 #include <algorithm>
 #include <cmath>

@@ -12,13 +12,6 @@
 //  Version 3 in the file COPYING that came with this distribution.
 //  If not, see <http://www.gnu.org/licenses/>.
 //========================================================================
-/*!
-\file    particle-filter-main.cc
-\brief   Main entry point for particle filter based
-         mobile robot localization
-\author  Joydeep Biswas, (C) 2019
-*/
-//========================================================================
 
 #include <signal.h>
 #include <stdlib.h>

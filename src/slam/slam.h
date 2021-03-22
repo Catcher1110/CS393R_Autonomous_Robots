@@ -12,12 +12,6 @@
 //  Version 3 in the file COPYING that came with this distribution.
 //  If not, see <http://www.gnu.org/licenses/>.
 //========================================================================
-/*!
-\file    slam.h
-\brief   SLAM Interface
-\author  Joydeep Biswas, (C) 2018
-*/
-//========================================================================
 
 #include <algorithm>
 #include <vector>
